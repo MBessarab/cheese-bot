@@ -1,19 +1,23 @@
 import {Menu, MenuRange} from "@grammyjs/menu";
 
 export const mainMenu = new Menu("main_menu")
-    .dynamic(() => {
+    .dynamic((ctx) => {
         return new MenuRange()
             .submenu(
                 { text: 'Написать' }, // label and payload
-                'write_menu', // navigation target menu
-                async ctx => {
-                    await ctx.editMessageText("Выбрать, кому написать") // handler
-                })
+                'request_menu',
+                async (ctx, next) => {
+                    await ctx.editMessageText("Выбрать, кому написать:")
+                    await next()
+                }
+            )
             .submenu(
                 { text: 'Ответить' }, // label and payload
-                'read_menu', // navigation target menu
-                async ctx =>
-                    await ctx.editMessageText("Выбрать, кому ответить") // handler
+                'response_menu',
+                async (ctx, next) => {
+                    await ctx.editMessageText("Выбрать, кому ответить:")
+                    await next()
+                }
             )
             .row()
     })

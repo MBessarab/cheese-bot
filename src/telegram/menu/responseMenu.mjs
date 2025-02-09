@@ -1,7 +1,7 @@
 import {Menu, MenuRange} from "@grammyjs/menu";
 import {backBtnMsg, helloMsg} from "../constants.mjs";
 
-export const readMenu = new Menu("read_menu")
+export const responseMenu = new Menu("response_menu")
     .dynamic( (ctx) => {
         return new MenuRange()
     })

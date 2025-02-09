@@ -1,7 +1,7 @@
-import {writeMenu} from "./writeMenu.mjs";
+import {requestMenu} from "./requestMenu.mjs";
 import {mainMenu} from "./mainMenu.mjs";
-import {readMenu} from "./readMenu.mjs";
+import {responseMenu} from "./responseMenu.mjs";
 
-mainMenu.register([writeMenu, readMenu])
+mainMenu.register([requestMenu, responseMenu])
 
 export const menu = mainMenu

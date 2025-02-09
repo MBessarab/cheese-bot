@@ -3,7 +3,7 @@ import {PsqlAdapter} from "@grammyjs/storage-psql";
 import {tgSessionClient} from "../../persistence/index.mjs";
 
 const initializeSession = () => ({
-    current_conversation_id: undefined
+    current_companion_id: null
 })
 
 export const sessionMiddleware = lazySession({
