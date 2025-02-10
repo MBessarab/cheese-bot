@@ -1,8 +1,8 @@
 import {helloMsg} from "../constants.mjs";
-import {menu} from "../menu/index.mjs";
+import {mainMenu} from "../menu/mainMenu.mjs";
 
 export const profileHandler = async (ctx) => {
     await ctx.reply(helloMsg, {
-        reply_markup: menu
+        reply_markup: mainMenu
     })
 }

@@ -11,11 +11,11 @@ async function users(){
     }
 }
 
-// Создать таблицу ban
-async function ban(){
+// Создать таблицу abuse
+async function abuse(){
     try {
-        await query('CREATE TABLE IF NOT EXISTS ban(from_user_id INTEGER, to_user_id INTEGER, reason TEXT, create_time TIMESTAMPTZ NOT NULL)');
-        console.log('Ban table ready.');
+        await query('CREATE TABLE IF NOT EXISTS abuse(from_user_id INTEGER, to_user_id INTEGER, reason TEXT, create_time TIMESTAMPTZ NOT NULL)');
+        console.log('Abuse table ready.');
     } catch (e) {
         console.error(e);
     }
@@ -24,7 +24,7 @@ async function ban(){
 // Создать таблицу relation, связи пользователей друг с другом
 async function relation() {
     try {
-        await query('CREATE TABLE IF NOT EXISTS relation(requester_user_id INTEGER, responder_user_id INTEGER, create_time TIMESTAMPTZ NOT NULL, delete_time TIMESTAMPTZ, PRIMARY KEY(requester_user_id, responder_user_id))')
+        await query('CREATE TABLE IF NOT EXISTS relation(initiator_user_id INTEGER, companion_user_id INTEGER, create_time TIMESTAMPTZ NOT NULL, delete_time TIMESTAMPTZ, PRIMARY KEY(initiator_user_id, companion_user_id))')
         console.log('Relation table ready.');
     } catch (e) {
         console.error(e);
@@ -34,7 +34,7 @@ async function relation() {
 // Создать таблицу following, привязка пользователя к трендсеттеру
 async function messages(){
     try {
-        await query('CREATE TABLE IF NOT EXISTS messages(responder_user_id INTEGER NOT NULL, requester_user_id INTEGER NOT NULL, text_msg TEXT, audio_msg TEXT, video_msg TEXT )')
+        await query('CREATE TABLE IF NOT EXISTS messages(initiator_user_id INTEGER NOT NULL, companion_user_id INTEGER NOT NULL, answered BOOLEAN DEFAULT false NOT NULL, text_msg TEXT, audio_msg TEXT, video_msg TEXT, create_time TIMESTAMPTZ NOT NULL)')
         console.log('Messages chat table ready.');
     } catch (e) {
         console.error(e);
@@ -43,7 +43,7 @@ async function messages(){
 
 export const migrate = async () => {
     await users()
-    await ban()
+    await abuse()
     await relation()
     await messages()
 }

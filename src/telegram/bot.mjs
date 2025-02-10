@@ -5,13 +5,13 @@ import {
     generateBeforeMiddleware, generateUpdateMiddleware,
 } from "telegraf-middleware-console-time";
 
-import {menu} from "./menu/index.mjs";
 import {middleware} from "./middleware/index.mjs";
 import {sessionMiddleware} from "./session/index.mjs";
 import { hydrateContext } from "@grammyjs/hydrate";
 import {startHandler} from "./handlers/startHandler.mjs";
 import {setUsernameHandler} from "./handlers/setUsernameHandler.mjs";
 import {profileHandler} from "./handlers/profileHandler.mjs";
+import {mainMenu} from "./menu/mainMenu.mjs";
 
 const token = process.env.BOT_TOKEN
 
@@ -25,7 +25,7 @@ bot
     // Добавление middleware слоя
     .use(middleware)
     // Добавление контекстного меню
-    .use(menu);
+    .use(mainMenu);
 
 if (process.env['NODE_ENV'] !== 'production') {
     bot

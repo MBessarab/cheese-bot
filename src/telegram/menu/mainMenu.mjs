@@ -1,4 +1,6 @@
 import {Menu, MenuRange} from "@grammyjs/menu";
+import {companionsMenu} from "./companionsMenu.mjs";
+import {initiatorsMenu} from "./initiatorsMenu.mjs";
 
 export const mainMenu = new Menu("main_menu")
     .dynamic((ctx) => {
@@ -13,7 +15,7 @@ export const mainMenu = new Menu("main_menu")
             )
             .submenu(
                 { text: 'Ответить' }, // label and payload
-                'response_menu',
+                'initiators_menu',
                 async (ctx, next) => {
                     await ctx.editMessageText("Выбрать, кому ответить:")
                     await next()
@@ -21,3 +23,5 @@ export const mainMenu = new Menu("main_menu")
             )
             .row()
     })
+
+mainMenu.register([companionsMenu, initiatorsMenu])
