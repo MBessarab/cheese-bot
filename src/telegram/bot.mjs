@@ -5,7 +5,7 @@ import {
     generateBeforeMiddleware, generateUpdateMiddleware,
 } from "telegraf-middleware-console-time";
 
-import {middleware} from "./middleware/index.mjs";
+import {filterBotsMiddleware, middleware} from "./middleware/index.mjs";
 import {sessionMiddleware} from "./session/index.mjs";
 import { hydrateContext } from "@grammyjs/hydrate";
 import {startHandler} from "./handlers/startHandler.mjs";
@@ -18,6 +18,7 @@ const token = process.env.BOT_TOKEN
 export const bot = new Bot(token)
 
 bot
+    .filter(filterBotsMiddleware)
     // Добавление слоя отслеживания сессии
     .use(sessionMiddleware)
     // Гидрация контекста https://grammy.dev/ru/plugins/hydrate

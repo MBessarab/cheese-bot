@@ -16,7 +16,7 @@ const openCompanionProfile = async (ctx, companionUsername) => {
     companion ?
         await ctx.session
             // привязать партнера к диалогу
-            .then((session) => session.current_companion_id = companion.user_id)
+            .then((session) => session.companion_candidate = companion)
             .then(() => createRelation(ctx.user, companion))
             // Показать приветствие
             .then(() => ctx.reply(companion.greeting_message, {

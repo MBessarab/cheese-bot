@@ -10,3 +10,5 @@ export async function userMiddleware(ctx, next) {
 
 export const middleware = new Composer()
     .use(userMiddleware)
+
+export const filterBotsMiddleware =  async (ctx, next) => !ctx.from.is_bot

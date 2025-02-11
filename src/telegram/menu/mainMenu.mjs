@@ -7,7 +7,7 @@ export const mainMenu = new Menu("main_menu")
         return new MenuRange()
             .submenu(
                 { text: 'Написать' }, // label and payload
-                'request_menu',
+                'companions_menu',
                 async (ctx, next) => {
                     await ctx.editMessageText("Выбрать, кому написать:")
                     await next()
