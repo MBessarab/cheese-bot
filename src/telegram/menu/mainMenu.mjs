@@ -10,7 +10,7 @@ export const mainMenu = new Menu("main_menu")
                 'companions_menu',
                 async (ctx, next) => {
                     await ctx.editMessageText("Выбрать, кому написать:")
-                    await next()
+                    return await next()
                 }
             )
             .submenu(
@@ -18,7 +18,7 @@ export const mainMenu = new Menu("main_menu")
                 'initiators_menu',
                 async (ctx, next) => {
                     await ctx.editMessageText("Выбрать, кому ответить:")
-                    await next()
+                    return await next()
                 }
             )
             .row()

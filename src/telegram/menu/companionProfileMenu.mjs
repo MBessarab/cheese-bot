@@ -19,7 +19,7 @@ export const companionProfileMenu = new Menu('companion_profile_menu')
 
                     await ctx.pinChatMessage(ctx.msgId)
 
-                    await next()
+                    return await next()
                 }
             )
     })

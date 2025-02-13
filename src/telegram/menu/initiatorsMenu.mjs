@@ -39,10 +39,17 @@ export const initiatorsMenu = new Menu("initiators_menu")
                         // const session = await ctx.session
                         // session.current_companion_id = ctx.match
 
-                        await next()
+                        return await next()
                     }
                 )
                 .row()
+                .text(
+                    'Прислать все',
+                    async (ctx, next) => {
+                        // поставить задачу на рассылку сообщений после ответа? режим диалогов?
+                        return await next()
+                    }
+                )
         })
 
         return range

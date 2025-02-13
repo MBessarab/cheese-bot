@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@grammyjs/emoji": "^1.2.0",
     "@grammyjs/hydrate": "^1.4.1",
     "@grammyjs/menu": "^1.3.0",
     "@grammyjs/router": "^2.0.0",

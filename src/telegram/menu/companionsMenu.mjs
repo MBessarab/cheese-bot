@@ -23,8 +23,7 @@ export const companionsMenu  = new Menu("companions_menu")
                             session.companion_candidate = companion
 
                             await ctx.editMessageText(companion.greeting_message)
-
-                            await next()
+                            return await next()
                         }
                     )
                     .row()

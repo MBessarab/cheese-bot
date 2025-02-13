@@ -5,20 +5,26 @@ import {
     generateBeforeMiddleware, generateUpdateMiddleware,
 } from "telegraf-middleware-console-time";
 
-import {filterBotsMiddleware, middleware} from "./middleware/index.mjs";
+import {deletePinMessageAlert, filterBotsMiddleware, middleware} from "./middleware/index.mjs";
 import {sessionMiddleware} from "./session/index.mjs";
 import { hydrateContext } from "@grammyjs/hydrate";
 import {startHandler} from "./handlers/startHandler.mjs";
 import {setUsernameHandler} from "./handlers/setUsernameHandler.mjs";
 import {profileHandler} from "./handlers/profileHandler.mjs";
 import {mainMenu} from "./menu/mainMenu.mjs";
+import {emojiParser} from "@grammyjs/emoji";
 
 const token = process.env.BOT_TOKEN
 
 export const bot = new Bot(token)
 
 bot
+    // парсер эмодзи
+    .use(emojiParser())
+    // отфильтровать других ботов
     .filter(filterBotsMiddleware)
+    // удалить сообщение о закрепе от бота
+    .filter(deletePinMessageAlert)
     // Добавление слоя отслеживания сессии
     .use(sessionMiddleware)
     // Гидрация контекста https://grammy.dev/ru/plugins/hydrate
