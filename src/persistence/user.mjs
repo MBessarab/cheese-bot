@@ -1,18 +1,18 @@
-import {query} from "./index.mjs";
+import {query} from "./index.mjs"
 
-export async function getOrCreateUser(user) {
+export async function getOrCreateUser(user, chatId) {
     const now = new Date()
 
     const promise = await query(
-        'INSERT INTO users(user_id, first_name, username, language_code, last_active_time, create_time, last_update_time) ' +
-        'VALUES ($1, $2, $3, $4, $5, $6, $7) ' +
-        'ON CONFLICT(user_id) DO UPDATE SET first_name = $8, username = $9, last_update_time = $10, last_active_time = $11 ' +
-        'RETURNING * ;',
+        'INSERT INTO users(user_id, chat_id, first_name, username, language_code, last_active_time, create_time, last_update_time) ' +
+        'VALUES ($1, $2, $3, $4, $5, $6, $7, $8) ' +
+        'ON CONFLICT(user_id) DO UPDATE SET chat_id = $9, first_name = $10, username = $11, last_update_time = $12, last_active_time = $13 ' +
+        'RETURNING * ',
         [
             // insert part
-            user.id, user.first_name, user.username, user.language_code, now, now, now,
+            user.id, chatId, user.first_name, user.username, user.language_code, now, now, now,
             // update part
-            user.first_name, user.username, now, now
+            chatId, user.first_name, user.username, now, now
         ]
     )
 

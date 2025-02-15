@@ -1,10 +1,11 @@
-import {lazySession} from "grammy";
-import {PsqlAdapter} from "@grammyjs/storage-psql";
-import {tgSessionClient} from "../../persistence/index.mjs";
+import {lazySession} from "grammy"
+import {PsqlAdapter} from "@grammyjs/storage-psql"
+import {tgSessionClient} from "../../persistence/index.mjs"
 
 const initializeSession = () => ({
-    companion_candidate: {}, // user object
-    chat_mode: ""   // "reply" | "write" | ""
+    companion_candidate: {},    // user object
+    chat_mode: null,    // "reply" | "write" | ""
+
 })
 
 export const sessionMiddleware = lazySession({

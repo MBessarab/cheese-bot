@@ -1,9 +1,9 @@
-import {Composer} from "grammy";
-import {getOrCreateUser} from "../../persistence/user.mjs";
+import {Composer} from "grammy"
+import {getOrCreateUser} from "../../persistence/user.mjs"
 
 
 export async function userMiddleware(ctx, next) {
-    ctx.user = await getOrCreateUser(ctx.from)
+    ctx.user = await getOrCreateUser(ctx.from, ctx.chatId)
 
     return await next()
 }

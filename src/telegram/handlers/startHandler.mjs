@@ -1,6 +1,6 @@
-import {companionProfileMenu} from "../menu/companionProfileMenu.mjs";
-import {findUserByCustomUsername} from "../../persistence/user.mjs";
-import {createRelation} from "../../persistence/relation.mjs";
+import {companionProfileMenu} from "../menu/companionProfileMenu.mjs"
+import {findUserByCustomUsername} from "../../persistence/user.mjs"
+import {createRelation} from "../../persistence/relation.mjs"
 
 export const startHandler = async (ctx) => {
     const companionUsername = ctx.match
@@ -24,8 +24,8 @@ const openCompanionProfile = async (ctx, companionUsername) => {
             }))
         :
         await ctx.reply("Пользователь не найден")
-            .then(() => {
-                ctx.reply("Воспользуйтесь подсказкой /help")
+            .then(async () =>  {
+                await ctx.reply("Воспользуйтесь подсказкой /help")
             })
 }
 

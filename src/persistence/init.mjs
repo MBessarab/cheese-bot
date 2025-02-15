@@ -1,4 +1,4 @@
-import {query} from "./index.mjs";
+import {query} from "./index.mjs"
 
 // Создать таблицу users, если она не существует
 async function users(){
@@ -18,7 +18,7 @@ async function users(){
             'delete_time TIMESTAMPTZ' +
             ')'
         )
-        console.log('Users table ready.');
+        console.log('Users table ready.')
     } catch (e) {
         console.error(e)
     }
@@ -34,10 +34,10 @@ async function abuse(){
             'reason TEXT NOT NULL, ' +
             'create_time TIMESTAMPTZ NOT NULL' +
             ')'
-        );
-        console.log('Abuse table ready.');
+        )
+        console.log('Abuse table ready.')
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 }
 
@@ -53,9 +53,9 @@ async function relation() {
             'PRIMARY KEY(initiator_user_id, companion_user_id)' +
             ')'
         )
-        console.log('Relation table ready.');
+        console.log('Relation table ready.')
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 }
 
@@ -70,14 +70,14 @@ async function messages(){
             'reply_message_id bigint, ' +
             'answered BOOLEAN DEFAULT false NOT NULL, ' +
             'text VARCHAR(256), ' +
-            'audio_file_id VARCHAR(256), ' +
-            'video_file_id VARCHAR(256), ' +
+            'voice_file_id VARCHAR(256), ' +
+            'video_note_file_id VARCHAR(256), ' +
             'create_time TIMESTAMPTZ NOT NULL' +
             ')'
         )
-        console.log('Messages chat table ready.');
+        console.log('Messages chat table ready.')
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 }
 
@@ -91,7 +91,7 @@ async function bot_logs(){
             'username VARCHAR(256), ' +
             'is_bot VARCHAR(256) NOT NULL, ' +
             'message_id BIGINT NOT NULL, ' +
-            'date BIGINT NOT NULL, ' +
+            'date TIMESTAMPTZ NOT NULL, ' +
             'text TEXT, ' +
             'reply_markup JSON, ' +
             'voice JSON, ' +
@@ -101,9 +101,9 @@ async function bot_logs(){
             'sticker JSON ' +
             ')'
         )
-        console.log('Messages chat table ready.');
+        console.log('Messages chat table ready.')
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 }
 

@@ -1,4 +1,4 @@
-import {logging} from "../../persistence/log.mjs";
+import {logging} from "../../persistence/log.mjs"
 
 
 export async function logActions(ctx, next) {

@@ -1,13 +1,13 @@
-import {Menu, MenuRange} from "@grammyjs/menu";
-import {companionsMenu} from "./companionsMenu.mjs";
-import {initiatorsMenu} from "./initiatorsMenu.mjs";
+import {Menu, MenuRange} from "@grammyjs/menu"
+import {companionListMenu} from "./companionListMenu.mjs"
+import {initiatorListMenu} from "./initiatorListMenu.mjs"
 
 export const mainMenu = new Menu("main_menu")
     .dynamic((ctx) => {
         return new MenuRange()
             .submenu(
                 { text: 'Написать' }, // label and payload
-                'companions_menu',
+                'companion_list_menu',
                 async (ctx, next) => {
                     await ctx.editMessageText("Выбрать, кому написать:")
                     return await next()
@@ -15,7 +15,7 @@ export const mainMenu = new Menu("main_menu")
             )
             .submenu(
                 { text: 'Ответить' }, // label and payload
-                'initiators_menu',
+                'initiator_list_menu',
                 async (ctx, next) => {
                     await ctx.editMessageText("Выбрать, кому ответить:")
                     return await next()
@@ -24,4 +24,4 @@ export const mainMenu = new Menu("main_menu")
             .row()
     })
 
-mainMenu.register([companionsMenu, initiatorsMenu])
+mainMenu.register([companionListMenu, initiatorListMenu])

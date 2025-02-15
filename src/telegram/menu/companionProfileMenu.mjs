@@ -1,7 +1,6 @@
-import {Menu} from "@grammyjs/menu";
-import {backBtnMsg} from "../constants.mjs";
-import {chatMenu} from "./chatMenu.mjs";
-
+import {Menu} from "@grammyjs/menu"
+import {backBtnMsg} from "../constants.mjs"
+import {companionChatMenu} from "./companionChatMenu.mjs"
 
 export const companionProfileMenu = new Menu('companion_profile_menu')
     .dynamic(async (ctx, range) => {
@@ -30,4 +29,4 @@ export const companionProfileMenu = new Menu('companion_profile_menu')
     })
 
 
-companionProfileMenu.register([chatMenu])
+companionProfileMenu.register([companionChatMenu])

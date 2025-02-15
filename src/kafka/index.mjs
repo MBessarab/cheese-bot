@@ -1,11 +1,11 @@
-import {Kafka} from "kafkajs";
+import {Kafka} from "kafkajs"
 
 const  kafka = new Kafka(
     {
         clientId: "tg-bot-cheese",
         brokers: ["localhost:9092"],
     }
-);
+)
 
 const producer = kafka.producer()
 
@@ -17,7 +17,7 @@ export const sentKafkaMessage = async (message) => {
             { value: message },
         ]
     })
-    await producer.disconnect();
+    await producer.disconnect()
 }
 
 const consumer = await kafka.consumer({groupId: "cheese-bot-group"})
