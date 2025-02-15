@@ -4,7 +4,7 @@ import {tgSessionClient} from "../../persistence/index.mjs";
 
 const initializeSession = () => ({
     companion_candidate: {}, // user object
-    chat_mode: ""   // "reply" | "write"
+    chat_mode: ""   // "reply" | "write" | ""
 })
 
 export const sessionMiddleware = lazySession({

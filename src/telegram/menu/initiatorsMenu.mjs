@@ -39,6 +39,8 @@ export const initiatorsMenu = new Menu("initiators_menu")
                         // const session = await ctx.session
                         // session.current_companion_id = ctx.match
 
+
+
                         return await next()
                     }
                 )

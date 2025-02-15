@@ -12,6 +12,7 @@ export const companionProfileMenu = new Menu('companion_profile_menu')
                 async (ctx, next) => {
                     const session = await ctx.session
                     session.chat_mode = 'write'
+
                     await ctx.editMessageText(
                         `Вы общаетесь с <b>${session.companion_candidate.custom_username}</b>`,
                         { parse_mode: "HTML" }
