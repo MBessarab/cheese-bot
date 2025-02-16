@@ -1,7 +1,7 @@
 import {query} from "./index.mjs"
 
 export async function logging(ctx) {
-    return await query(
+    return ctx.msg && await query(
         'INSERT INTO bot_logs(' +
         'user_id, username, is_bot, message_id, date, text, reply_markup, voice, video_note, photo, video, sticker' +
         ') VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
