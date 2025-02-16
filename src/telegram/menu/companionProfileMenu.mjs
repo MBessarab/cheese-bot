@@ -1,6 +1,26 @@
 import {Menu} from "@grammyjs/menu"
 import {backBtnMsg} from "../constants.mjs"
-import {companionChatMenu} from "./companionChatMenu.mjs"
+import {companionChatMenu, companionChatSubmenuMiddleware} from "./companionChatMenu.mjs"
+import {chooseWriteMsgHandler} from "../common/chooseWriteMsgHandler.mjs"
+
+///////////////////////////// Middleware /////////////////////////////
+
+export const companionProfileSubmenuMiddleware = (companion) => {
+    return async (ctx, next) => {
+        await ctx.unpinAllChatMessages()
+
+        const session = await ctx.session
+        session.companion_candidate = companion
+
+        await ctx.editMessageText(companion.greeting_message)
+        return await next()
+    }
+}
+
+const backMiddleware = async (ctx) => await chooseWriteMsgHandler(ctx)
+
+
+//////////////////////////////// Menu ///////////////////////////////
 
 export const companionProfileMenu = new Menu('companion_profile_menu')
     .dynamic(async (ctx, range) => {
@@ -8,25 +28,11 @@ export const companionProfileMenu = new Menu('companion_profile_menu')
             .submenu(
                 "Начать диалог",
                 "companion_chat_menu",
-                async (ctx, next) => {
-                    const session = await ctx.session
-                    session.chat_mode = 'write'
-
-                    await ctx.editMessageText(
-                        `Вы общаетесь с <b>${session.companion_candidate.custom_username}</b>`,
-                        { parse_mode: "HTML" }
-                    )
-
-                    await ctx.pinChatMessage(ctx.msgId)
-
-                    return await next()
-                }
+                companionChatSubmenuMiddleware
             )
     })
     .row()
-    .back(backBtnMsg, async (ctx) => {
-        await ctx.editMessageText("Выбрать, кому написать:")
-    })
+    .back(backBtnMsg, backMiddleware)
 
 
 companionProfileMenu.register([companionChatMenu])

@@ -14,10 +14,9 @@ const pool = new pg.Pool({
 export const query = async (str, params) => {
     const client = await pool.connect()
 
-    const result = await client.query(str, params)
-    await client.release()
-
-    return result
+    return client.query(str, params)
+        .catch(err => console.log(err))
+        .finally(() => client.release())
 }
 
 // Создание клиента для сессий

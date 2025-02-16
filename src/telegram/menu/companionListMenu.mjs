@@ -2,7 +2,21 @@ import {Menu} from "@grammyjs/menu"
 import {backBtnMsg, helloMsg} from "../constants.mjs"
 import {findRelationsFromUser} from "../../persistence/relation.mjs"
 import {findUsersByIds} from "../../persistence/user.mjs"
-import {companionProfileMenu} from "./companionProfileMenu.mjs"
+import {companionProfileMenu, companionProfileSubmenuMiddleware} from "./companionProfileMenu.mjs"
+import {chooseWriteMsgHandler} from "../common/chooseWriteMsgHandler.mjs"
+
+///////////////////////////// Middleware /////////////////////////////
+
+export const companionListSubmenuMiddleware = async (ctx, next) => {
+    await chooseWriteMsgHandler(ctx)
+    return await next()
+}
+
+const backMiddleware = async (ctx) => {
+    await ctx.editMessageText(helloMsg)
+}
+
+//////////////////////////////// Menu ///////////////////////////////
 
 export const companionListMenu  = new Menu("companion_list_menu")
     .dynamic( async (ctx, range) => {
@@ -17,14 +31,7 @@ export const companionListMenu  = new Menu("companion_list_menu")
                     .submenu(
                         `${companion.custom_username || companion.username}`,
                         "companion_profile_menu",
-                        async (ctx, next) => {
-                            const session = await ctx.session
-                            // Записать собеседника из payload в текущий диалог
-                            session.companion_candidate = companion.user
-
-                            await ctx.editMessageText(companion.greeting_message)
-                            return await next()
-                        }
+                        companionProfileSubmenuMiddleware(companion)
                     )
                     .row()
             })
@@ -36,8 +43,6 @@ export const companionListMenu  = new Menu("companion_list_menu")
         return range
     })
     .row()
-    .back(backBtnMsg, async (ctx) => {
-        await ctx.editMessageText(helloMsg)
-    })
+    .back(backBtnMsg, backMiddleware)
 
 companionListMenu.register(companionProfileMenu)

@@ -1,25 +1,21 @@
 import {Menu, MenuRange} from "@grammyjs/menu"
-import {companionListMenu} from "./companionListMenu.mjs"
-import {initiatorListMenu} from "./initiatorListMenu.mjs"
+import {companionListMenu, companionListSubmenuMiddleware} from "./companionListMenu.mjs"
+import {initiatorListMenu, initiatorListSubmenuMiddleware} from "./initiatorListMenu.mjs"
+
+//////////////////////////////// Menu ///////////////////////////////
 
 export const mainMenu = new Menu("main_menu")
     .dynamic((ctx) => {
         return new MenuRange()
             .submenu(
-                { text: 'Написать' }, // label and payload
+                { text: 'Написать' },
                 'companion_list_menu',
-                async (ctx, next) => {
-                    await ctx.editMessageText("Выбрать, кому написать:")
-                    return await next()
-                }
+                companionListSubmenuMiddleware
             )
             .submenu(
-                { text: 'Ответить' }, // label and payload
+                { text: 'Ответить' },
                 'initiator_list_menu',
-                async (ctx, next) => {
-                    await ctx.editMessageText("Выбрать, кому ответить:")
-                    return await next()
-                }
+                initiatorListSubmenuMiddleware
             )
             .row()
     })

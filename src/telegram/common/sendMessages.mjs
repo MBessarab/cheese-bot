@@ -1,8 +1,11 @@
-import {findNonAnsweredMessage} from "../../persistence/message.mjs";
+import {findInitiatorNonAnsweredMessage, findNonAnsweredMessage} from "../../persistence/message.mjs"
 
 // Отправить первое сообщение, остальные обрабатывать в после реплая
-export const startSendMessages = async (companionCtx) => {
-    const message = await findNonAnsweredMessage(companionCtx.user)
+export const startSendMessages = async (companionCtx, initiator) => {
+    const message = initiator ?
+        await findInitiatorNonAnsweredMessage(companionCtx.user, initiator) :
+        await findNonAnsweredMessage(companionCtx.user)
+
     message && await sendMessage(companionCtx, message[0])
 }
 

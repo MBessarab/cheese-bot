@@ -1,6 +1,6 @@
 import {helloMsg} from "../constants.mjs"
 
-export const setUsernameHandler = async (ctx) => {
+export const setUsername = async (ctx) => {
     // const companionUsername = ctx.match
     //
     // if (companionUsername) {

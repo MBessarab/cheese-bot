@@ -7,16 +7,12 @@ import {
 
 import {sessionMiddleware} from "./session/index.mjs"
 import { hydrateContext } from "@grammyjs/hydrate"
-import {startHandler} from "./handlers/startHandler.mjs"
-import {setUsernameHandler} from "./handlers/setUsernameHandler.mjs"
-import {profileHandler} from "./handlers/profileHandler.mjs"
 import {mainMenu} from "./menu/mainMenu.mjs"
-import {emojiParser} from "@grammyjs/emoji"
 import {deletePinMessageAlert, filterBotsMiddleware} from "./middleware/filter.mjs"
 import {middleware} from "./middleware/enrichment.mjs"
-import {writeMessageHandler} from "./handlers/writeMessageHandler.mjs"
-import {replyMessageHandler} from "./handlers/replyMessageHandler.mjs"
 import {logActions} from "./middleware/log.mjs"
+import {botCommandsGroup} from "./commands/index.js"
+import {messageTextHandler} from "./messages/messageTextHandler.mjs"
 
 const token = process.env.BOT_TOKEN
 
@@ -25,8 +21,6 @@ export const bot = new Bot(token)
 bot
     // логировать все входящие события
     .use(logActions)
-    // парсер эмодзи
-    .use(emojiParser())
     // отфильтровать других ботов
     .filter(filterBotsMiddleware)
     // удалить сообщение о закрепе от бота
@@ -39,6 +33,8 @@ bot
     .use(middleware)
     // Добавление контекстного меню
     .use(mainMenu)
+    // установить меню с командами
+    .use(botCommandsGroup)
 
 if (process.env['NODE_ENV'] !== 'production') {
     bot
@@ -47,34 +43,12 @@ if (process.env['NODE_ENV'] !== 'production') {
         .use(generateAfterMiddleware())
 }
 
-bot.command("start", startHandler)
-bot.command("profile", profileHandler)
-bot.command("set_my_username", setUsernameHandler)
-
-bot.on("message", async (ctx) => {
-    // const session = await ctx.session
-    //
-    // switch (session.chat_mode) {
-    //     case "write":
-    //         await writeMessageHandler(ctx)
-    //         break
-    //     case "reply":
-    //         await replyMessageHandler(ctx)
-    //         break
-    //     default:
-    //         console.log("default")
-    // }
-    console.log()
-})
+// Registration messages
+bot.on("message:text", messageTextHandler)
 
 bot.catch(console.error.bind(console))
 
 export const startBot = async () => {
-    await bot.api.setMyCommands([
-        { command: 'start', description: "Запуск бота" },
-        { command: 'profile', description: "Мой профиль" },
-        { command: 'set_my_username', description: "Установить псевдоним" },
-    ])
-
+    await botCommandsGroup.setCommands(bot)
     await bot.start()
 }
