@@ -2,6 +2,7 @@ import {Menu} from "@grammyjs/menu"
 import {backBtnMsg} from "../constants.mjs"
 import {companionChatMenu, companionChatSubmenuMiddleware} from "./companionChatMenu.mjs"
 import {chooseWriteMsgHandler} from "../common/chooseWriteMsgHandler.mjs"
+import {setSessionAttribute} from "../session/index.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
@@ -9,8 +10,7 @@ export const companionProfileSubmenuMiddleware = (companion) => {
     return async (ctx, next) => {
         await ctx.unpinAllChatMessages()
 
-        const session = await ctx.session
-        session.companion_candidate = companion
+        await setSessionAttribute(ctx, {companion_candidate: companion})
 
         await ctx.editMessageText(companion.greeting_message)
         return await next()

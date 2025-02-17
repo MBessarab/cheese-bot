@@ -13,6 +13,8 @@ import {middleware} from "./middleware/enrichment.mjs"
 import {logActions} from "./middleware/log.mjs"
 import {botCommandsGroup} from "./commands/index.js"
 import {messageTextHandler} from "./messages/messageTextHandler.mjs"
+import {messageVoiceHandler} from "./messages/messageVoiceHandler.mjs"
+import {messageVideoNoteHandler} from "./messages/messageVideoNoteHandler.mjs"
 
 const token = process.env.BOT_TOKEN
 
@@ -45,6 +47,8 @@ if (process.env['NODE_ENV'] !== 'production') {
 
 // Registration messages
 bot.on("message:text", messageTextHandler)
+bot.on("message:voice", messageVoiceHandler)
+bot.on("message:video_note", messageVideoNoteHandler)
 
 bot.catch(console.error.bind(console))
 

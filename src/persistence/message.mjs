@@ -26,3 +26,16 @@ export async function countNonAnsweredMessages(companion) {
 
     return promise.rows
 }
+
+export async function saveMessage(msg, companionUser){
+    return await query(
+        'INSERT INTO messages(' +
+            'message_id, initiator_user_id, companion_user_id, text, voice_file_id, video_note_file_id, create_time' +
+        ') VALUES (' +
+            '$1, $2, $3, $4, $5, $6, $7' +
+        ') ',
+        [
+            msg.message_id, msg.from.id, companionUser.user_id, msg?.text, msg.voice?.file_id, msg.video_note?.file_id, new Date()
+        ]
+    )
+}

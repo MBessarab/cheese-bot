@@ -1,6 +1,7 @@
 import {companionProfileMenu} from "../menu/companionProfileMenu.mjs"
 import {findUserByCustomUsername} from "../../persistence/user.mjs"
 import {createRelation} from "../../persistence/relation.mjs"
+import {setSessionAttribute} from "../session/index.mjs"
 
 export const start = async (ctx) => {
     const companionUsername = ctx.match
@@ -13,8 +14,7 @@ export const start = async (ctx) => {
 const openProfile = async (ctx, companion) => {
     const session = await ctx.session
     // привязать партнера к диалогу и очистить чат мод
-    session.companion_candidate = companion
-    session.chat_mode = null
+    await setSessionAttribute(ctx, {chat_mode: null})
 
     // связать инициатора с компаньоном
     await createRelation(ctx.user, companion)

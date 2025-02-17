@@ -3,18 +3,18 @@ import {backBtnMsg, helloMsg} from "../constants.mjs"
 import {countNonAnsweredMessages} from "../../persistence/message.mjs"
 import {findUsersByIds} from "../../persistence/user.mjs"
 import {startSendMessages} from "../common/sendMessages.mjs"
+import {setSessionAttribute} from "../session/index.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
 export const initiatorListSubmenuMiddleware = async (ctx, next) => {
-    await ctx.editMessageText("Выбрать, кому ответить:")
+    await ctx.editMessageText("У вас есть новые сообщения 🙋🏻‍♂️")
     return await next()
 }
 
 const sendUserMessagesMiddleware = (initiator) => {
     return async (ctx, next) => {
-        const session = await ctx.session
-        session.chat_mode = "reply"
+        await setSessionAttribute(ctx, {chat_mode: "reply"})
 
         await startSendMessages(ctx, initiator)
 
@@ -23,11 +23,15 @@ const sendUserMessagesMiddleware = (initiator) => {
 }
 
 const sendAllMessagesMiddleware = async (ctx, next) => {
+    await setSessionAttribute(ctx, {chat_mode: "reply"})
+
     await startSendMessages(ctx)
     return await next()
 }
 
 const backMiddleware = async (ctx) => {
+    await setSessionAttribute(ctx, {chat_mode: null})
+
     await ctx.editMessageText(helloMsg)
 }
 
