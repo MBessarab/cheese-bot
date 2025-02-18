@@ -68,7 +68,6 @@ async function messages(){
             'initiator_user_id BIGINT NOT NULL, ' +
             'companion_user_id BIGINT NOT NULL, ' +
             'reply_message_id bigint, ' +
-            'answered BOOLEAN DEFAULT false NOT NULL, ' +
             'text VARCHAR(256), ' +
             'voice_file_id VARCHAR(256), ' +
             'video_note_file_id VARCHAR(256), ' +

@@ -2,7 +2,7 @@ import {writeMessageHandler} from "../common/writeMessageHandler.mjs"
 import {replyMessageHandler} from "../common/replyMessageHandler.mjs"
 import {replyErrorMessage} from "./replyErrorMessage.mjs"
 import {getSessionAttribute} from "../session/index.mjs"
-
+import {mainMenu} from "../menu/mainMenu.mjs";
 
 export const messageTextHandler = async (ctx, next) => {
     const chatMode = await getSessionAttribute(ctx, "chat_mode")
@@ -12,10 +12,15 @@ export const messageTextHandler = async (ctx, next) => {
             await writeMessageHandler(ctx)
             break
         case "reply":
-            ctx.msg.reply_to_message ? await replyMessageHandler(ctx) : await replyErrorMessage(ctx)
+            ctx.msg.reply_to_message ?
+                await replyMessageHandler(ctx) :
+                await replyErrorMessage(ctx)
             break
         default:
-            console.warn(`Chat mode is not defined: ${chatMode}`)
+            await ctx.reply("Выберете действие и повторите сообщение", {
+                reply_markup: mainMenu
+            })
     }
+
     return next()
 }

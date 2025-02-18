@@ -2,7 +2,7 @@ import {Menu} from "@grammyjs/menu"
 import {backBtnMsg, helloMsg} from "../constants.mjs"
 import {countNonAnsweredMessages} from "../../persistence/message.mjs"
 import {findUsersByIds} from "../../persistence/user.mjs"
-import {startSendMessages} from "../common/sendMessages.mjs"
+import {startSendMessage} from "../common/sendMessages.mjs"
 import {setSessionAttribute} from "../session/index.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
@@ -14,23 +14,22 @@ export const initiatorListSubmenuMiddleware = async (ctx, next) => {
 
 const sendUserMessagesMiddleware = (initiator) => {
     return async (ctx, next) => {
-        await setSessionAttribute(ctx, {chat_mode: "reply"})
+        await setSessionAttribute(ctx, { chat_mode: "reply" })
 
-        await startSendMessages(ctx, initiator)
-
+        await startSendMessage({ companionCtx: ctx, initiator, /*replyMode: "user"*/ })
         return await next()
     }
 }
 
 const sendAllMessagesMiddleware = async (ctx, next) => {
-    await setSessionAttribute(ctx, {chat_mode: "reply"})
+    await setSessionAttribute(ctx, { chat_mode: "reply" })
 
-    await startSendMessages(ctx)
+    await startSendMessage({ companionCtx: ctx, /*replyMode: "all"*/ })
     return await next()
 }
 
 const backMiddleware = async (ctx) => {
-    await setSessionAttribute(ctx, {chat_mode: null})
+    await setSessionAttribute(ctx, { chat_mode: null })
 
     await ctx.editMessageText(helloMsg)
 }
