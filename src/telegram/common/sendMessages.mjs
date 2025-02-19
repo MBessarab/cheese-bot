@@ -30,8 +30,28 @@ export const sendMessage = async (ctx, message) => {
 
 export const forwardMessage = async (ctx, message, chatId) => {
     message && (
-        (message.text && await ctx.api.sendMessage(chatId, message.text)) ||
-        (message.voice?.file_id && await ctx.api.sendVoice(chatId, message.voice.file_id)) ||
-        (message.video_note?.file_id && await ctx.api.sendVideoNote(chatId, message.video_note.file_id))
+        (message.text && await forwardText(ctx, chatId, message.text)) ||
+        (message.voice?.file_id && await forwardVoice(ctx, chatId, message.voice.file_id)) ||
+        (message.video_note?.file_id && await forwardVideoNote(ctx, chatId, message.video_note.file_id))
     )
+}
+
+async function forwardVoice(ctx, chatId, voiceFileId) {
+    await sendFromMessage(ctx, chatId)
+    await ctx.api.sendVoice(chatId, voiceFileId)
+}
+
+async function forwardVideoNote(ctx, chatId, videoNodeFileId) {
+    await sendFromMessage(ctx, chatId)
+    await ctx.api.sendVideoNote(chatId, videoNodeFileId)
+}
+
+async function forwardText(ctx, chatId, text) {
+    await sendFromMessage(ctx, chatId)
+    await ctx.api.sendMessage(chatId, text)
+}
+
+async function sendFromMessage(ctx, chatId) {
+    const username = ctx.user.custom_username || ctx.user.username
+    await ctx.api.sendMessage(chatId, `Сообщение от ${username} :`)
 }

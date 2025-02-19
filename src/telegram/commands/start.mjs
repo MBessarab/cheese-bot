@@ -12,15 +12,14 @@ export const start = async (ctx) => {
 }
 
 const openProfile = async (ctx, companion) => {
-    const session = await ctx.session
     // привязать партнера к диалогу и очистить чат мод
-    await setSessionAttribute(ctx, {chat_mode: null})
+    await setSessionAttribute(ctx, {chat_mode: null, companion_candidate: companion})
 
     // связать инициатора с компаньоном
     await createRelation(ctx.user, companion)
 
     // Убрать закреп предыдущего компаньона
-    const unpinned = await ctx.unpinAllChatMessages()
+    await ctx.unpinAllChatMessages()
 
     await ctx.reply(companion.greeting_message, {
         reply_markup: companionProfileMenu
