@@ -1,5 +1,6 @@
 // Отфильтровать сообщения от других ботов
 import {checkAvailableUsers, isUser} from "./userHelper.mjs"
+import {Reactions} from "@grammyjs/emoji";
 
 export const filterBotsMiddleware =  async (ctx) => checkAvailableUsers(ctx)
 

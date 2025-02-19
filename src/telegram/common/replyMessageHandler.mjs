@@ -10,9 +10,9 @@ import {forwardMessage, sendMessage} from "./sendMessages.mjs";
 export const replyMessageHandler = async (ctx) => {
     const currentReply = await getSessionAttribute(ctx, "current_reply")
 
-    // найти сообщение
+    // найти сообщение инициатора
     const initiatorsMessage = await findMessageById(currentReply.message_id)
-    // запсать сообщение в базу
+    // запсать сообщение компаньона
     await saveCompanionMessage(ctx.msg, initiatorsMessage.initiator_user_id, initiatorsMessage.message_id)
     // отослать инициатору
     await forwardMessage(ctx, ctx.msg, initiatorsMessage.chat_id)
@@ -35,6 +35,8 @@ export const replyMessageHandler = async (ctx) => {
 
     } else {
         await setSessionAttribute(ctx, {current_reply: null})
+        // TODO если в сессии не установлена настройка присылать сообщения по появлению
+        // TODO Добавить меню из профиля с выбором варианта присылания сообщений
         await ctx.reply("Сообщений больше нет")
     }
 }

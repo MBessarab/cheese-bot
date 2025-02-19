@@ -1,10 +1,13 @@
-import {writeMessageHandler} from "../common/writeMessageHandler.mjs"
-import {replyMessageHandler} from "../common/replyMessageHandler.mjs"
-import {replyErrorMessage} from "./replyErrorMessage.mjs"
-import {getSessionAttribute} from "../session/index.mjs"
+import {getSessionAttribute} from "../session/index.mjs";
+import {writeMessageHandler} from "../common/writeMessageHandler.mjs";
+import {replyMessageHandler} from "../common/replyMessageHandler.mjs";
+import {replyErrorMessage} from "./replyErrorMessage.mjs";
 import {mainMenu} from "../menu/mainMenu.mjs";
 
-export const messageTextHandler = async (ctx, next) => {
+export const messageHandler = async (ctx, next) => {
+    // (ctx.msg.text && await messageTextHandler(ctx)) ||
+    // (ctx.msg.voice && await messageVoiceHandler(ctx)) ||
+    // (ctx.msg.video_note && await messageVideoNoteHandler(ctx))
     const chatMode = await getSessionAttribute(ctx, "chat_mode")
 
     switch (chatMode) {

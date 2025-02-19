@@ -21,6 +21,7 @@ export async function findInitiatorNonAnsweredMessage(companion, initiator) {
         "FROM messages " +
         "WHERE " +
         "companion_user_id = $1 " +
+        "AND initiator_user_id = $2 " +
         "AND message_id NOT IN (SELECT reply_message_id FROM messages WHERE reply_message_id IS NOT NULL) " +
         "AND reply_message_id IS NULL " +
         "ORDER BY create_time ASC LIMIT 1",

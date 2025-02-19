@@ -1,5 +1,5 @@
 import {findInitiatorNonAnsweredMessage, findAllNonAnsweredMessage} from "../../persistence/message.mjs"
-import {getSessionAttribute, setSessionAttribute} from "../session/index.mjs";
+import {setSessionAttribute} from "../session/index.mjs";
 
 // Отправить первое сообщение, остальные обрабатывать в после реплая
 export const startSendMessage = async ({ companionCtx, initiator, /*replyMode*/ }) => {
@@ -31,7 +31,7 @@ export const sendMessage = async (ctx, message) => {
 export const forwardMessage = async (ctx, message, chatId) => {
     message && (
         (message.text && await ctx.api.sendMessage(chatId, message.text)) ||
-        (message.voice_file_id && await ctx.api.sendMessage(chatId, message.voice_file_id)) ||
-        (message.video_note_file_id && await ctx.api.sendMessage(chatId, message.video_note_file_id))
+        (message.voice?.file_id && await ctx.api.sendVoice(chatId, message.voice.file_id)) ||
+        (message.video_note?.file_id && await ctx.api.sendVideoNote(chatId, message.video_note.file_id))
     )
 }

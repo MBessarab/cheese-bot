@@ -8,6 +8,7 @@ import {setSessionAttribute} from "../session/index.mjs"
 ///////////////////////////// Middleware /////////////////////////////
 
 export const initiatorListSubmenuMiddleware = async (ctx, next) => {
+    // TODO проверить, есть ли новые сообщения
     await ctx.editMessageText("У вас есть новые сообщения 🙋🏻‍♂️")
     return await next()
 }
