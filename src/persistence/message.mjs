@@ -1,5 +1,20 @@
 import {query} from "./index.mjs"
 
+export async function findAllNonAnsweredMessages(companion) {
+    const promise = await query(
+        "SELECT * " +
+        "FROM messages " +
+        "WHERE " +
+        "companion_user_id = $1 " +
+        "AND message_id NOT IN (SELECT reply_message_id FROM messages WHERE reply_message_id IS NOT NULL) " +
+        "AND reply_message_id IS NULL " +
+        "ORDER BY create_time ASC ",
+        [companion.user_id]
+    )
+
+    return promise.rows
+}
+
 export async function findAllNonAnsweredMessage(companion) {
     const promise = await query(
         "SELECT * " +
@@ -15,7 +30,7 @@ export async function findAllNonAnsweredMessage(companion) {
     return promise.rows[0]
 }
 
-export async function findInitiatorNonAnsweredMessage(companion, initiator) {
+export async function findInitiatorNonAnsweredMessage(companion, initiatorUserId) {
     const promise = await query(
         "SELECT * " +
         "FROM messages " +
@@ -25,7 +40,7 @@ export async function findInitiatorNonAnsweredMessage(companion, initiator) {
         "AND message_id NOT IN (SELECT reply_message_id FROM messages WHERE reply_message_id IS NOT NULL) " +
         "AND reply_message_id IS NULL " +
         "ORDER BY create_time ASC LIMIT 1",
-        [companion.user_id, initiator.user_id]
+        [companion.user_id, initiatorUserId]
     )
 
     return promise.rows[0]

@@ -3,6 +3,7 @@ import {backBtnMsg} from "../constants.mjs"
 import {chooseWriteMsgHandler} from "../common/chooseWriteMsgHandler.mjs"
 import {session} from "grammy"
 import {getSessionAttribute, setSessionAttribute} from "../session/index.mjs"
+import {findRelationsFromUser} from "../../persistence/relation.mjs";
 
 ///////////////////////////// Middleware /////////////////////////////
 
@@ -21,7 +22,10 @@ export const companionChatSubmenuMiddleware = async (ctx, next) => {
 }
 
 const backMiddleware = async (ctx) => {
-    await chooseWriteMsgHandler(ctx)
+    const relations = await findRelationsFromUser(ctx.user)
+    ctx.relations = relations
+
+    await chooseWriteMsgHandler(ctx, relations)
 
     await setSessionAttribute(ctx, {chat_mode: null})
     await ctx.unpinAllChatMessages()

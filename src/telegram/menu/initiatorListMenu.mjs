@@ -8,8 +8,14 @@ import {setSessionAttribute} from "../session/index.mjs"
 ///////////////////////////// Middleware /////////////////////////////
 
 export const initiatorListSubmenuMiddleware = async (ctx, next) => {
-    // TODO проверить, есть ли новые сообщения
-    await ctx.editMessageText("У вас есть новые сообщения 🙋🏻‍♂️")
+    // проверить, есть ли новые сообщения
+    const countMessages = await countNonAnsweredMessages(ctx.user)
+    ctx.countMessages = countMessages
+
+    const text = countMessages.length ? 'У вас есть новые сообщения 🙋🏻‍♂️' : 'У вас нет новых сообщений'
+
+    await ctx.editMessageText(text)
+
     return await next()
 }
 
@@ -17,7 +23,7 @@ const sendUserMessagesMiddleware = (initiator) => {
     return async (ctx, next) => {
         await setSessionAttribute(ctx, { chat_mode: "reply" })
 
-        await startSendMessage({ companionCtx: ctx, initiator, /*replyMode: "user"*/ })
+        await startSendMessage({ companionCtx: ctx, initiator })
         return await next()
     }
 }
@@ -39,7 +45,7 @@ const backMiddleware = async (ctx) => {
 
 export const initiatorListMenu = new Menu("initiator_list_menu")
     .dynamic( async (ctx, range) => {
-        const countMessages = await countNonAnsweredMessages(ctx.user)
+        const countMessages = await ctx.countMessages || await countNonAnsweredMessages(ctx.user)
         const initiatorIds = countMessages.map((item) => item.initiator_user_id)
         const initiators = await findUsersByIds(initiatorIds)
 

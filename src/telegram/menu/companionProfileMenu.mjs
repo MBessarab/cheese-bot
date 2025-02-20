@@ -3,6 +3,7 @@ import {backBtnMsg} from "../constants.mjs"
 import {companionChatMenu, companionChatSubmenuMiddleware} from "./companionChatMenu.mjs"
 import {chooseWriteMsgHandler} from "../common/chooseWriteMsgHandler.mjs"
 import {setSessionAttribute} from "../session/index.mjs"
+import {findRelationsFromUser} from "../../persistence/relation.mjs";
 
 ///////////////////////////// Middleware /////////////////////////////
 
@@ -17,7 +18,12 @@ export const companionProfileSubmenuMiddleware = (companion) => {
     }
 }
 
-const backMiddleware = async (ctx) => await chooseWriteMsgHandler(ctx)
+const backMiddleware = async (ctx) => {
+    const relations = await findRelationsFromUser(ctx.user)
+    ctx.relations = relations
+
+    await chooseWriteMsgHandler(ctx, relations)
+}
 
 
 //////////////////////////////// Menu ///////////////////////////////

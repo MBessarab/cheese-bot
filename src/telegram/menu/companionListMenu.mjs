@@ -8,7 +8,9 @@ import {chooseWriteMsgHandler} from "../common/chooseWriteMsgHandler.mjs"
 ///////////////////////////// Middleware /////////////////////////////
 
 export const companionListSubmenuMiddleware = async (ctx, next) => {
-    await chooseWriteMsgHandler(ctx)
+    const relations = await findRelationsFromUser(ctx.user)
+    ctx.relations = relations
+    await chooseWriteMsgHandler(ctx, relations)
     return await next()
 }
 
@@ -20,7 +22,7 @@ const backMiddleware = async (ctx) => {
 
 export const companionListMenu  = new Menu("companion_list_menu")
     .dynamic( async (ctx, range) => {
-        const relations = await findRelationsFromUser(ctx.user)
+        const relations = await ctx.relations || await findRelationsFromUser(ctx.user)
         const companionIds = relations.map((r) => r.companion_user_id)
 
         const listConversations = async () => {

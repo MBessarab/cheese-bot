@@ -1,5 +1,5 @@
 import {
-    findAllNonAnsweredMessage,
+    findAllNonAnsweredMessage, findAllNonAnsweredMessages,
     findInitiatorNonAnsweredMessage,
     findMessageById,
     saveCompanionMessage
@@ -13,13 +13,18 @@ export const replyMessageHandler = async (ctx) => {
 
     // найти сообщение инициатора
     const initiatorsMessage = await findMessageById(currentReply.message_id)
+
+    if (!initiatorsMessage) return ctx.reply("Вы уже ответили на это сообщение", {
+        reply_markup: initiatorListMenu
+    })
+
     // запсать сообщение компаньона
     await saveCompanionMessage(ctx.msg, initiatorsMessage.initiator_user_id, initiatorsMessage.message_id)
     // отослать инициатору
     await forwardMessageToInitiator(ctx, ctx.msg, initiatorsMessage.chat_id)
 
     const message = currentReply.initiator_id ?
-        await findInitiatorNonAnsweredMessage(ctx.user, initiator) :
+        await findInitiatorNonAnsweredMessage(ctx.user, initiatorsMessage.initiator_user_id) :
         await findAllNonAnsweredMessage(ctx.user)
 
     // прислать новое сообщение или уведомление, что сообщений пока нет
@@ -37,7 +42,7 @@ export const replyMessageHandler = async (ctx) => {
     } else {
         await setSessionAttribute(ctx, {current_reply: null})
 
-        const nonAnsweredMessages = await findAllNonAnsweredMessage(ctx.user)
+        const nonAnsweredMessages = await findAllNonAnsweredMessages(ctx.user)
 
         const messageInfoText = nonAnsweredMessages.length ?
             'У вас есть еще сообщения.' :
