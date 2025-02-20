@@ -24,6 +24,12 @@ export async function findUsersByIds(ids) {
     return promise.rows.filter((user) => ids.includes(user.user_id))
 }
 
+export async function findUsersById(id) {
+    const promise = await query('SELECT * FROM users WHERE user_id = $1', [id])
+
+    return promise.rows[0]
+}
+
 export async function findUserByCustomUsername(customUsername) {
     const promise = await query('SELECT * FROM users WHERE custom_username = $1', [customUsername])
     return promise.rows[0]

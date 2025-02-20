@@ -5,7 +5,8 @@ import {
     saveCompanionMessage
 } from "../../persistence/message.mjs";
 import {getSessionAttribute, setSessionAttribute} from "../session/index.mjs";
-import {forwardMessage, sendMessage} from "./sendMessages.mjs";
+import {forwardMessageToInitiator, sendMessageToCompanion} from "../messages/sendAndForwardMessage.mjs";
+import {initiatorListMenu} from "../menu/initiatorListMenu.mjs";
 
 export const replyMessageHandler = async (ctx) => {
     const currentReply = await getSessionAttribute(ctx, "current_reply")
@@ -15,7 +16,7 @@ export const replyMessageHandler = async (ctx) => {
     // запсать сообщение компаньона
     await saveCompanionMessage(ctx.msg, initiatorsMessage.initiator_user_id, initiatorsMessage.message_id)
     // отослать инициатору
-    await forwardMessage(ctx, ctx.msg, initiatorsMessage.chat_id)
+    await forwardMessageToInitiator(ctx, ctx.msg, initiatorsMessage.chat_id)
 
     const message = currentReply.initiator_id ?
         await findInitiatorNonAnsweredMessage(ctx.user, initiator) :
@@ -31,12 +32,21 @@ export const replyMessageHandler = async (ctx) => {
             }
         })
 
-        await sendMessage(ctx, message)
+        await sendMessageToCompanion(ctx, message)
 
     } else {
         await setSessionAttribute(ctx, {current_reply: null})
+
+        const nonAnsweredMessages = await findAllNonAnsweredMessage(ctx.user)
+
+        const messageInfoText = nonAnsweredMessages.length ?
+            'У вас есть еще сообщения.' :
+            'Вы ответили на все сообщения.'
+
         // TODO если в сессии не установлена настройка присылать сообщения по появлению
-        // TODO Добавить меню из профиля с выбором варианта присылания сообщений
-        await ctx.reply("Сообщений больше нет")
+        // TODO записать id сообщения, если появятся новые сообщения, обновлять количество сообщений
+        await ctx.reply(messageInfoText, {
+            reply_markup: initiatorListMenu
+        })
     }
 }

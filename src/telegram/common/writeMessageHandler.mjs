@@ -5,7 +5,7 @@ export const writeMessageHandler = async (ctx) => {
     const companionCandidate = await getSessionAttribute(ctx, "companion_candidate")
     await saveInitiatorMessage(ctx.msg, companionCandidate)
 
-    // Отослать компаньону уведомление о новых сообщениях
+    // Изменить сообщение компаньона по ид из сессии компаньону уведомление о новых сообщениях
     // await ctx.api.sendMessage(companionCandidate.chat_id, "У вас есть новые сообщения 🙋🏻‍♂️", {
     //     reply_markup: initiatorListMenu
     // })
