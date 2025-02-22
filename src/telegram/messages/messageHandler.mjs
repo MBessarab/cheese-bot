@@ -1,8 +1,8 @@
-import {getSessionAttribute} from "../session/index.mjs";
-import {writeMessageHandler} from "../common/writeMessageHandler.mjs";
-import {replyMessageHandler} from "../common/replyMessageHandler.mjs";
-import {replyErrorMessage} from "./replyErrorMessage.mjs";
-import {mainMenu} from "../menu/mainMenu.mjs";
+import {getSessionAttribute} from "../session/index.mjs"
+import {writeMessageHandler} from "../common/writeMessageHandler.mjs"
+import {replyMessageHandler} from "../common/replyMessageHandler.mjs"
+import {replyErrorMessage} from "./replyErrorMessage.mjs"
+import {mainMenu} from "../menu/mainMenu.mjs"
 
 export const messageHandler = async (ctx, next) => {
     const chatMode = await getSessionAttribute(ctx, "chat_mode")

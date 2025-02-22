@@ -1,13 +1,13 @@
 import {Menu} from "@grammyjs/menu"
-import {backBtnMsg, helloMsg} from "../constants.mjs"
-import {countNonAnsweredMessages} from "../../persistence/message.mjs"
-import {findUsersByIds} from "../../persistence/user.mjs"
-import {startSendMessage} from "../common/sendMessages.mjs"
-import {setSessionAttribute} from "../session/index.mjs"
+import {backBtnMsg, helloMsg} from "../../constants.mjs"
+import {countNonAnsweredMessages} from "../../../persistence/message.mjs"
+import {findUsersByIds} from "../../../persistence/user.mjs"
+import {startSendMessage} from "../../common/sendMessages.mjs"
+import {setSessionAttribute} from "../../session/index.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
-export const initiatorListSubmenuMiddleware = async (ctx, next) => {
+export async function initiatorListSubmenuMiddleware(ctx, next) {
     // проверить, есть ли новые сообщения
     const countMessages = await countNonAnsweredMessages(ctx.user)
     ctx.countMessages = countMessages
@@ -46,12 +46,13 @@ const backMiddleware = async (ctx) => {
 export const initiatorListMenu = new Menu("initiator_list_menu")
     .dynamic( async (ctx, range) => {
         const countMessages = await ctx.countMessages || await countNonAnsweredMessages(ctx.user)
+
         const initiatorIds = countMessages.map((item) => item.initiator_user_id)
         const initiators = await findUsersByIds(initiatorIds)
 
         initiators.forEach((initiator) => {
             const countNonAnswered = countMessages
-                .find(countMessages => countMessages.initiator_user_id === initiator.user_id).count
+                .find(countMessages => countMessages.initiator_user_id === initiator.id).count
 
             const countNonAnsweredMsg =  countNonAnswered ? `(${countNonAnswered})` : ''
             const usernameMsg = initiator.custom_username || initiator.username

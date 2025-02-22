@@ -4,19 +4,20 @@ import {query} from "./index.mjs"
 async function users(){
     try {
         await query(
-            'CREATE TABLE IF NOT EXISTS users(' +
-            'user_id bigint PRIMARY KEY, ' +
-            'chat_id bigint NOT NULL, ' +
-            'first_name VARCHAR(256), ' +
-            'username VARCHAR(256), ' +
-            'custom_username VARCHAR(256), ' +
-            'language_code VARCHAR(10), ' +
-            'greeting_message TEXT DEFAULT \'Привет, напиши мне что-нибудь :)\', ' +
-            'last_active_time TIMESTAMPTZ NOT NULL, ' +
-            'create_time TIMESTAMPTZ NOT NULL, ' +
-            'last_update_time TIMESTAMPTZ NOT NULL, ' +
-            'delete_time TIMESTAMPTZ' +
-            ')'
+            `CREATE TABLE IF NOT EXISTS users(
+                id BIGINT PRIMARY KEY, 
+                chat_id BIGINT NOT NULL, 
+                first_name VARCHAR(256), 
+                username VARCHAR(256), 
+                custom_username VARCHAR(256), 
+                language_code VARCHAR(10), 
+                balance_stars BIGINT NOT NULL DEFAULT 0, 
+                greeting_message TEXT DEFAULT 'Привет, напиши мне что-нибудь :)', 
+                last_active_time TIMESTAMPTZ NOT NULL, 
+                create_time TIMESTAMPTZ NOT NULL, 
+                last_update_time TIMESTAMPTZ NOT NULL, 
+                delete_time TIMESTAMPTZ
+            )`
         )
         console.log('Users table ready.')
     } catch (e) {
@@ -28,14 +29,66 @@ async function users(){
 async function abuse(){
     try {
         await query(
-            'CREATE TABLE IF NOT EXISTS abuse(' +
-            'from_user_id BIGINT NOT NULL, ' +
-            'to_user_id BIGINT NOT NULL, ' +
-            'reason TEXT NOT NULL, ' +
-            'create_time TIMESTAMPTZ NOT NULL' +
-            ')'
+            `CREATE TABLE IF NOT EXISTS abuse(
+                from_user_id BIGINT NOT NULL, 
+                to_user_id BIGINT NOT NULL, 
+                reason TEXT NOT NULL, 
+                create_time TIMESTAMPTZ NOT NULL
+            )`
         )
         console.log('Abuse table ready.')
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+// Создать таблицу type_message
+async function typeMessage(){
+    try {
+        await query(
+            `CREATE TABLE IF NOT EXISTS type_message(
+                id INTEGER PRIMARY KEY, 
+                short VARCHAR(32) NOT NULL, 
+                emoji VARCHAR(10) NOT NULL, 
+                ru_title VARCHAR(32) NOT NULL, 
+                en_title VARCHAR(32) NOT NULL 
+            )`
+        )
+        console.log('TypeMessage table ready.')
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+// Заполнить таблицу type_message
+async function fillTypeMessages(){
+    try {
+        await query(
+            `INSERT INTO type_message(id, short, emoji, ru_title, en_title) VALUES 
+                (1, 'text', '📜', 'Текст', 'text'),
+                (2, 'voice', '🎙', 'Голосовое сообщение', 'Voice'),
+                (3, 'video_note', '📺', 'Видеосообщение', 'Video note')
+             ON CONFLICT DO NOTHING`
+        )
+        console.log('TypeMessages inserts ready.')
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+// Создать таблицу user_message_types
+async function userTypeMessages(){
+    try {
+        await query(
+            `CREATE TABLE IF NOT EXISTS user_type_message(
+                user_id BIGINT, 
+                type_message_id INTEGER NOT NULL, 
+                price_stars INTEGER DEFAULT 0, 
+                last_update_time TIMESTAMPTZ NOT NULL, 
+                PRIMARY KEY(user_id, type_message_id) 
+            )`
+        )
+        console.log('UserTypeMessages table ready.')
     } catch (e) {
         console.error(e)
     }
@@ -45,13 +98,15 @@ async function abuse(){
 async function relation() {
     try {
         await query(
-            'CREATE TABLE IF NOT EXISTS relation(' +
-            'initiator_user_id BIGINT NOT NULL, ' +
-            'companion_user_id BIGINT NOT NULL, ' +
-            'create_time TIMESTAMPTZ NOT NULL, ' +
-            'delete_time TIMESTAMPTZ, ' +
-            'PRIMARY KEY(initiator_user_id, companion_user_id)' +
-            ')'
+            `CREATE TABLE IF NOT EXISTS relation(
+                initiator_user_id BIGINT NOT NULL, 
+                companion_user_id BIGINT NOT NULL, 
+                reply_type_message_id INTEGER,
+                abuse TEXT,
+                create_time TIMESTAMPTZ NOT NULL, 
+                delete_time TIMESTAMPTZ, 
+                PRIMARY KEY(initiator_user_id, companion_user_id)
+            )`
         )
         console.log('Relation table ready.')
     } catch (e) {
@@ -63,16 +118,18 @@ async function relation() {
 async function messages(){
     try {
         await query(
-            'CREATE TABLE IF NOT EXISTS messages(' +
-            'message_id BIGINT NOT NULL, ' +
-            'initiator_user_id BIGINT NOT NULL, ' +
-            'companion_user_id BIGINT NOT NULL, ' +
-            'reply_message_id bigint, ' +
-            'text VARCHAR(256), ' +
-            'voice_file_id VARCHAR(256), ' +
-            'video_note_file_id VARCHAR(256), ' +
-            'create_time TIMESTAMPTZ NOT NULL' +
-            ')'
+            `CREATE TABLE IF NOT EXISTS messages(
+                message_id BIGINT NOT NULL, 
+                initiator_user_id BIGINT NOT NULL, 
+                companion_user_id BIGINT NOT NULL, 
+                need_reply_type_message_id INTEGER, 
+                reply_message_id bigint, 
+                cost BIGINT,
+                text VARCHAR(256), 
+                voice_file_id VARCHAR(256), 
+                video_note_file_id VARCHAR(256), 
+                create_time TIMESTAMPTZ NOT NULL
+            )`
         )
         console.log('Messages chat table ready.')
     } catch (e) {
@@ -85,22 +142,22 @@ async function messages(){
 async function bot_logs(){
     try {
         await query(
-            'CREATE TABLE IF NOT EXISTS bot_logs(' +
-            'user_id BIGINT NOT NULL, ' +
-            'username VARCHAR(256), ' +
-            'is_bot VARCHAR(256) NOT NULL, ' +
-            'message_id BIGINT NOT NULL, ' +
-            'date TIMESTAMPTZ NOT NULL, ' +
-            'text TEXT, ' +
-            'reply_markup JSON, ' +
-            'voice JSON, ' +
-            'video_note JSON, ' +
-            'photo JSON, ' +
-            'video JSON, ' +
-            'sticker JSON ' +
-            ')'
+            `CREATE TABLE IF NOT EXISTS bot_logs(
+                user_id BIGINT NOT NULL, 
+                username VARCHAR(256), 
+                is_bot VARCHAR(256) NOT NULL, 
+                message_id BIGINT NOT NULL, 
+                date TIMESTAMPTZ NOT NULL, 
+                text TEXT, 
+                reply_markup JSON, 
+                voice JSON, 
+                video_note JSON, 
+                photo JSON, 
+                video JSON, 
+                sticker JSON 
+            )`
         )
-        console.log('Messages chat table ready.')
+        console.log('bot_logs table ready.')
     } catch (e) {
         console.error(e)
     }
@@ -112,4 +169,7 @@ export const migrate = async () => {
     await relation()
     await messages()
     await bot_logs()
+    await typeMessage()
+    await fillTypeMessages()
+    await userTypeMessages()
 }

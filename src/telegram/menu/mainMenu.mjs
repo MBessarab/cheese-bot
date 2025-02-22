@@ -1,12 +1,18 @@
-import {Menu, MenuRange} from "@grammyjs/menu"
-import {companionListMenu, companionListSubmenuMiddleware} from "./companionListMenu.mjs"
-import {initiatorListMenu, initiatorListSubmenuMiddleware} from "./initiatorListMenu.mjs"
+import {Menu} from "@grammyjs/menu"
+import {companionListMenu, companionListSubmenuMiddleware} from "./companion/companionListMenu.mjs"
+import {initiatorListMenu, initiatorListSubmenuMiddleware} from "./initiator/initiatorListMenu.mjs"
+import {profileMenu, profileSubmenuMiddleware} from "./profile/profileMenu.mjs"
 
 //////////////////////////////// Menu ///////////////////////////////
 
 export const mainMenu = new Menu("main_menu")
-    .dynamic((ctx) => {
-        return new MenuRange()
+    .dynamic((ctx, range) => {
+        return range
+            .submenu(
+                { text: 'Профиль' },
+                'profile_menu',
+                profileSubmenuMiddleware
+            )
             .submenu(
                 { text: 'Написать' },
                 'companion_list_menu',
@@ -20,4 +26,4 @@ export const mainMenu = new Menu("main_menu")
             .row()
     })
 
-mainMenu.register([companionListMenu, initiatorListMenu])
+mainMenu.register([companionListMenu, initiatorListMenu, profileMenu])

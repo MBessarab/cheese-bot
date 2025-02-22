@@ -1,7 +1,7 @@
-// Отфильтровать сообщения от других ботов
 import {checkAvailableUsers, isUser} from "./userHelper.mjs"
-import {Reactions} from "@grammyjs/emoji";
+import {BotError} from "grammy";
 
+// Отфильтровать сообщения от других ботов
 export const filterBotsMiddleware =  async (ctx) => checkAvailableUsers(ctx)
 
 // Удалить закрепленное сообщение от бота
@@ -11,6 +11,7 @@ export const deletePinMessageAlert =  async (ctx) => {
 
         // // поставить реакцию на закрепленное сообщение
         // await ctx.react(Reactions.writing_hand, {message_id: ctx.msg.pinned_message.message_id})
+        // throw new BotError("Message from bot")
         return false
     } else {
         return true

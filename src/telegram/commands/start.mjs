@@ -1,4 +1,4 @@
-import {companionProfileMenu} from "../menu/companionProfileMenu.mjs"
+import {companionProfileMenu} from "../menu/companion/companionProfileMenu.mjs"
 import {findUserByCustomUsername} from "../../persistence/user.mjs"
 import {createRelation} from "../../persistence/relation.mjs"
 import {setSessionAttribute} from "../session/index.mjs"

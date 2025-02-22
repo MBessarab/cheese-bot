@@ -1,13 +1,13 @@
 import {Menu} from "@grammyjs/menu"
-import {backBtnMsg, helloMsg} from "../constants.mjs"
-import {findRelationsFromUser} from "../../persistence/relation.mjs"
-import {findUsersByIds} from "../../persistence/user.mjs"
+import {backBtnMsg, helloMsg} from "../../constants.mjs"
+import {findRelationsFromUser} from "../../../persistence/relation.mjs"
+import {findUsersByIds} from "../../../persistence/user.mjs"
 import {companionProfileMenu, companionProfileSubmenuMiddleware} from "./companionProfileMenu.mjs"
-import {chooseWriteMsgHandler} from "../common/chooseWriteMsgHandler.mjs"
+import {chooseWriteMsgHandler} from "../../common/chooseWriteMsgHandler.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
-export const companionListSubmenuMiddleware = async (ctx, next) => {
+export async function companionListSubmenuMiddleware(ctx, next) {
     const relations = await findRelationsFromUser(ctx.user)
     ctx.relations = relations
     await chooseWriteMsgHandler(ctx, relations)
@@ -22,6 +22,7 @@ const backMiddleware = async (ctx) => {
 
 export const companionListMenu  = new Menu("companion_list_menu")
     .dynamic( async (ctx, range) => {
+
         const relations = await ctx.relations || await findRelationsFromUser(ctx.user)
         const companionIds = relations.map((r) => r.companion_user_id)
 

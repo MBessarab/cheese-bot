@@ -1,13 +1,11 @@
 import {Menu} from "@grammyjs/menu"
-import {backBtnMsg} from "../constants.mjs"
-import {chooseWriteMsgHandler} from "../common/chooseWriteMsgHandler.mjs"
-import {session} from "grammy"
-import {getSessionAttribute, setSessionAttribute} from "../session/index.mjs"
-import {findRelationsFromUser} from "../../persistence/relation.mjs";
+import {backBtnMsg} from "../../constants.mjs"
+import {getSessionAttribute, setSessionAttribute} from "../../session/index.mjs"
+import {companionListSubmenuMiddleware} from "./companionListMenu.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
-export const companionChatSubmenuMiddleware = async (ctx, next) => {
+export async function companionChatSubmenuMiddleware(ctx, next) {
     await setSessionAttribute(ctx, {chat_mode: "write"})
     const companionCandidate = await getSessionAttribute(ctx, "companion_candidate")
 
@@ -21,18 +19,15 @@ export const companionChatSubmenuMiddleware = async (ctx, next) => {
     return await next()
 }
 
-const backMiddleware = async (ctx) => {
-    const relations = await findRelationsFromUser(ctx.user)
-    ctx.relations = relations
-
-    await chooseWriteMsgHandler(ctx, relations)
-
+const backMiddleware = async (ctx, next) => {
     await setSessionAttribute(ctx, {chat_mode: null})
     await ctx.unpinAllChatMessages()
     await ctx.menu.nav('companion_list_menu')
+
+    return await next()
 }
 
 //////////////////////////////// Menu ///////////////////////////////
 
 export const companionChatMenu = new Menu('companion_chat_menu')
-    .text(backBtnMsg, backMiddleware)
+    .text(backBtnMsg, companionListSubmenuMiddleware, backMiddleware)
