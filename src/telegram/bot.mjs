@@ -44,7 +44,7 @@ if (process.env['NODE_ENV'] !== 'production') {
 }
 
 // Registration messages
-bot.on([":text", ":voice", ":video_note"], messageHandler)
+bot.on([":text", ":voice", ":video_note", "message:media"], messageHandler)
 
 bot.catch(console.error.bind(console))
 

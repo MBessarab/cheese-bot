@@ -37,13 +37,13 @@ export async function createRelation(initiatorUser, companionUser) {
     )
 }
 
-export async function updateRelationTypeMessages(initiator, companion, typeMessage, checked) {
+export async function updateRelationTypeMessages(initiator, companion, messageType, checked) {
     return await query(
         `UPDATE relation 
-            SET reply_type_message_id = $1
+            SET reply_message_type_id = $1
             WHERE 
                 initiator_user_id = $2 AND companion_user_id = $3
             `,
-        [checked ? typeMessage.id : null, initiator.id, companion.id]
+        [checked ? messageType.id : null, initiator.id, companion.id]
     )
 }

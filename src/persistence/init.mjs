@@ -42,11 +42,11 @@ async function abuse(){
     }
 }
 
-// Создать таблицу type_message
-async function typeMessage(){
+// Создать таблицу message_type
+async function messageType(){
     try {
         await query(
-            `CREATE TABLE IF NOT EXISTS type_message(
+            `CREATE TABLE IF NOT EXISTS message_type(
                 id INTEGER PRIMARY KEY, 
                 short VARCHAR(32) NOT NULL, 
                 emoji VARCHAR(10) NOT NULL, 
@@ -60,11 +60,11 @@ async function typeMessage(){
     }
 }
 
-// Заполнить таблицу type_message
+// Заполнить таблицу message_type
 async function fillTypeMessages(){
     try {
         await query(
-            `INSERT INTO type_message(id, short, emoji, ru_title, en_title) VALUES 
+            `INSERT INTO message_type(id, short, emoji, ru_title, en_title) VALUES 
                 (1, 'text', '📜', 'Текст', 'text'),
                 (2, 'voice', '🎙', 'Голосовое сообщение', 'Voice'),
                 (3, 'video_note', '📺', 'Видеосообщение', 'Video note')
@@ -80,12 +80,12 @@ async function fillTypeMessages(){
 async function userTypeMessages(){
     try {
         await query(
-            `CREATE TABLE IF NOT EXISTS user_type_message(
+            `CREATE TABLE IF NOT EXISTS user_message_type(
                 user_id BIGINT, 
-                type_message_id INTEGER NOT NULL, 
+                message_type_id INTEGER NOT NULL, 
                 price_stars INTEGER DEFAULT 0, 
                 last_update_time TIMESTAMPTZ NOT NULL, 
-                PRIMARY KEY(user_id, type_message_id) 
+                PRIMARY KEY(user_id, message_type_id) 
             )`
         )
         console.log('UserTypeMessages table ready.')
@@ -101,7 +101,7 @@ async function relation() {
             `CREATE TABLE IF NOT EXISTS relation(
                 initiator_user_id BIGINT NOT NULL, 
                 companion_user_id BIGINT NOT NULL, 
-                reply_type_message_id INTEGER,
+                reply_message_type_id INTEGER,
                 abuse TEXT,
                 create_time TIMESTAMPTZ NOT NULL, 
                 delete_time TIMESTAMPTZ, 
@@ -122,7 +122,7 @@ async function messages(){
                 message_id BIGINT NOT NULL, 
                 initiator_user_id BIGINT NOT NULL, 
                 companion_user_id BIGINT NOT NULL, 
-                need_reply_type_message_id INTEGER, 
+                need_reply_message_type_id INTEGER, 
                 reply_message_id bigint, 
                 cost BIGINT,
                 text VARCHAR(256), 
@@ -169,7 +169,7 @@ export const migrate = async () => {
     await relation()
     await messages()
     await bot_logs()
-    await typeMessage()
+    await messageType()
     await fillTypeMessages()
     await userTypeMessages()
 }

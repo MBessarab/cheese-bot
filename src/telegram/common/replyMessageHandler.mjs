@@ -11,6 +11,11 @@ import {initiatorListMenu} from "../menu/initiator/initiatorListMenu.mjs"
 export async function replyMessageHandler(ctx){
     const currentReply = await getSessionAttribute(ctx, "current_reply")
 
+    // проверить реплай на конкретное сообщение
+    if(currentReply.bot_message_id !== ctx.msg.reply_to_message.message_id) {
+        return await ctx.reply("Свайпните другое сообщение для ответа")
+    }
+
     // найти сообщение инициатора
     const initiatorsMessage = await findMessageById(currentReply.message_id)
 
@@ -22,8 +27,8 @@ export async function replyMessageHandler(ctx){
 
     // проверить тип сообщения
     const messageTypeShort = getMessageType(ctx.msg)
-    const messageType = ctx.user_types_message.find(tpe => tpe.short === messageTypeShort)
-    if(messageType.id !== initiatorsMessage.need_reply_type_message_id)
+    const messageType = ctx.user_message_types.find(tpe => tpe.short === messageTypeShort)
+    if(messageType.id !== initiatorsMessage.need_reply_message_type_id)
         return await ctx.reply("Вы вбрали неверный формат ответа")
 
     // записать сообщение компаньона
@@ -37,16 +42,16 @@ export async function replyMessageHandler(ctx){
 
     // прислать новое сообщение или уведомление, что сообщений пока нет
     if (message) {
+        const botMsg = await sendMessageToCompanion(ctx, message, messageType)
+
         // записать новое сообщение в сессию на ответ
         await setSessionAttribute(ctx, {
             current_reply: {
                 message_id: message.message_id,
-                initiator_id: currentReply.initiator_id
+                initiator_id: currentReply.initiator_id,
+                bot_message_id: botMsg.message_id
             }
         })
-
-        await sendMessageToCompanion(ctx, message, messageType)
-
     } else {
         await setSessionAttribute(ctx, {current_reply: null})
 

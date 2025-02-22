@@ -3,13 +3,13 @@ import {profileDescriptionMenu, showDescriptionProfileMiddleware} from "./profil
 import {backBtnMsg} from "../../constants.mjs"
 import {setNicknameProfileMenu, setNicknameProfileMiddleware} from "./setNicknameProfileMenu.mjs"
 import {addFundsBalanceProfileMenu, addFundsBalanceProfileMiddleware} from "./addFundsBalanceProfileMenu.mjs"
-import {typesMessageProfileMenu, typesMessageProfileMiddleware} from "./typesMessageProfileMenu.mjs"
+import {messageTypesProfileMenu, messageTypesProfileMiddleware} from "./messageTypesProfileMenu.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
 export async function profileSubmenuMiddleware(ctx, next) {
     await ctx.editMessageText(
-        `Ваш никнейм: <b>${ctx.user.custom_username || ctx.user.username}</b> \n Баланс: `, {
+        `Никнейм: <b>${ctx.user.custom_username || ctx.user.username}</b>\nБаланс: ${ctx.user.balance_stars} ⭐️\n`, {
             parse_mode: "HTML"
         }
     )
@@ -28,24 +28,27 @@ export const profileMenu = new Menu("profile_menu")
     .dynamic((ctx, range) => {
         return range
             .submenu(
-                'Установить никнейм',
-                'set_nickname_profile_menu',
-                setNicknameProfileMiddleware
+                'Пополнить баланс',
+                'add_funds_balance_profile_menu',
+                addFundsBalanceProfileMiddleware
             )
+            .row()
             .submenu(
                 'Описание профиля',
                 'show_profile_description_menu',
                 showDescriptionProfileMiddleware
             )
+            .row()
             .submenu(
-                'Тип ответа',
-                'types_message_profile_menu',
-                typesMessageProfileMiddleware
+                'Типы ответа',
+                'message_types_profile_menu',
+                messageTypesProfileMiddleware
             )
+            .row()
             .submenu(
-                'Пополнить баланс',
-                'add_funds_balance_profile_menu',
-                addFundsBalanceProfileMiddleware
+                'Установить никнейм',
+                'set_nickname_profile_menu',
+                setNicknameProfileMiddleware
             )
             .row()
     })
@@ -55,5 +58,5 @@ profileMenu.register([
     profileDescriptionMenu,
     setNicknameProfileMenu,
     addFundsBalanceProfileMenu,
-    typesMessageProfileMenu
+    messageTypesProfileMenu
 ])

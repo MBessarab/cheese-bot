@@ -1,5 +1,5 @@
 import {checkAvailableUsers, isUser} from "./userHelper.mjs"
-import {BotError} from "grammy";
+import {BotError} from "grammy"
 
 // Отфильтровать сообщения от других ботов
 export const filterBotsMiddleware =  async (ctx) => checkAvailableUsers(ctx)

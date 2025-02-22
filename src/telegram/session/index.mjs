@@ -7,6 +7,7 @@ const initializeSession = () => ({
     chat_mode: null,    // "reply" | "write" | ""
     current_reply: {
         message_id: null, // последнее сообщение
+        bot_message_id: null, // id пересланного сообщения для реплая компаньоном
         initiator_id: null, // null - присылать все соообщения, иначе сообщения выбранного инициатора
         // reply_mode: null // all - присылать все соообщения, initiator - прислать сообщение инициатора
     }

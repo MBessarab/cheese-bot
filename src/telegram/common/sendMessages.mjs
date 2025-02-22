@@ -9,16 +9,16 @@ export const startSendMessage = async ({ companionCtx, initiator, }) => {
         await findAllNonAnsweredMessage(companionCtx.user)
 
     if (message) {
+        const messageType = companionCtx.user_message_types.find(tpe => tpe.id === message.need_reply_message_type_id)
+
+        const botMsg = await sendMessageToCompanion(companionCtx, message, messageType)
+
         await setSessionAttribute(companionCtx, {
             current_reply: {
                 message_id: message.message_id,
                 initiator_id: initiator?.id,
-                // reply_mode: replyMode
+                bot_message_id: botMsg.message_id
             }
         })
-
-        const messageType = companionCtx.user_types_message.find(tpe => tpe.id === message.need_reply_type_message_id)
-
-        await sendMessageToCompanion(companionCtx, message, messageType)
     }
 }

@@ -1,6 +1,6 @@
 import {Composer} from "grammy"
 import {getOrCreateUser} from "../../persistence/user.mjs"
-import {createDefaultUserMessageTypes, getUserTypesMessage} from "../../persistence/userMessageTypes.mjs"
+import {createDefaultUserMessageTypes, getUserMessageTypes} from "../../persistence/userMessageTypes.mjs"
 
 
 export async function userMiddleware(ctx, next) {
@@ -11,7 +11,7 @@ export async function userMiddleware(ctx, next) {
 
 export async function userMessageTypesMiddleware(ctx, next) {
     await createDefaultUserMessageTypes(ctx.user)
-    ctx.user_types_message = await getUserTypesMessage(ctx.user)
+    ctx.user_message_types = await getUserMessageTypes(ctx.user)
 
     return await next()
 }
