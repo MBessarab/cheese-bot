@@ -98,3 +98,17 @@ export async function findUsersById(id) {
 
     return result.rows[0]
 }
+
+export async function updateUserMessageTypeWithPriceStars(userId, priceStars, messageTypeId) {
+    return await query(
+        `UPDATE user_message_type SET price_stars = $1, last_update_time = $2 WHERE user_id = $3 AND message_type_id = $4`,
+        [priceStars, new Date(), userId, messageTypeId],
+    )
+}
+
+export async function setNickname(userId, nickname) {
+    return await query(
+        `UPDATE users SET nickname = $1, last_update_time = $2 WHERE id = $3`,
+        [nickname, new Date(), userId]
+    )
+}

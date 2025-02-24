@@ -1,7 +1,7 @@
 import {Menu} from "@grammyjs/menu"
 import {profileDescriptionMenu, showDescriptionProfileMiddleware} from "./profileDescriptionMenu/index.mjs"
 import {backBtnMsg} from "../../../common/constants.mjs"
-import {setNicknameProfileMenu, setNicknameProfileMiddleware} from "./setNicknameProfileMenu/index.mjs"
+import {changeNicknameProfileMenu, changeNicknameProfileMiddleware} from "./changeNicknameProfileMenu/index.mjs"
 import {addFundsBalanceProfileMenu, addFundsBalanceProfileMiddleware} from "./addFundsBalanceProfileMenu/index.mjs"
 import {messageTypesProfileMenu, messageTypesProfileMiddleware} from "./messageTypesProfileMenu/index.mjs"
 
@@ -47,8 +47,8 @@ export const profileMenu = new Menu("profile_menu")
             .row()
             .submenu(
                 'Установить никнейм',
-                'set_nickname_profile_menu',
-                setNicknameProfileMiddleware
+                'change_nickname_profile_menu',
+                changeNicknameProfileMiddleware
             )
             .row()
     })
@@ -56,7 +56,7 @@ export const profileMenu = new Menu("profile_menu")
 
 profileMenu.register([
     profileDescriptionMenu,
-    setNicknameProfileMenu,
+    changeNicknameProfileMenu,
     addFundsBalanceProfileMenu,
     messageTypesProfileMenu
 ])

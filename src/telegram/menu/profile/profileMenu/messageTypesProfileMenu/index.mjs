@@ -29,7 +29,7 @@ export const messageTypesProfileMenu = new Menu("message_types_profile_menu")
                 .submenu(
                     `${messageType.emoji}`,
                     'message_type_profile_menu',
-                    messageTypeProfileMiddleware
+                    messageTypeProfileMiddleware(messageType)
                 )
         })
         
