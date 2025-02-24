@@ -3,8 +3,8 @@ import {backBtnMsg} from "../../../../common/constants.mjs"
 import {companionChatMenu, companionChatSubmenuMiddleware} from "./companionChatMenu/index.mjs"
 import {getSessionAttribute, setSessionAttribute} from "../../../../common/session/index.mjs"
 import {companionListSubmenuMiddleware} from "../index.mjs"
-import {updateRelationTypeMessages} from "./persistence.mjs";
-import {findRelation, getUserMessageTypes} from "../../../../common/persistence/index.mjs";
+import {updateRelationTypeMessages} from "./persistence.mjs"
+import {findRelation, getUserMessageTypes} from "../../../../common/persistence/index.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 

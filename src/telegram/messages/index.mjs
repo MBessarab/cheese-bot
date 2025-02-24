@@ -16,9 +16,10 @@ export const messageHandler = async (ctx, next) => {
                 await replyErrorMessage(ctx)
             break
         case "change_profile_description":
-            ctx.msg.reply_to_message ?
-                await replyMessageHandler(ctx) :
-                await replyErrorMessage(ctx)
+            await ctx.reply("Изменение профиля пока недодступно")
+            break
+        case "change_nickname":
+            await ctx.reply("Изменение профиля пока недодступно")
             break
         default:
             await ctx.reply("Выберете действие и повторите сообщение", {

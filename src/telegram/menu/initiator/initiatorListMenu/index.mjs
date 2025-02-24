@@ -1,8 +1,8 @@
 import {Menu} from "@grammyjs/menu"
 import {backBtnMsg, helloMsg} from "../../../common/constants.mjs"
 import {setSessionAttribute} from "../../../common/session/index.mjs"
-import {countNonAnsweredMessages, findUsersByIds} from "./persistence.mjs";
-import {startSendMessage} from "./startSendMessage.mjs";
+import {countNonAnsweredMessages, findUsersByIds} from "./persistence.mjs"
+import {startSendMessage} from "./startSendMessage.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
@@ -54,7 +54,7 @@ export const initiatorListMenu = new Menu("initiator_list_menu")
                 .find(countMessages => countMessages.initiator_user_id === initiator.id).count
 
             const countNonAnsweredMsg =  countNonAnswered ? `(${countNonAnswered})` : ''
-            const usernameMsg = initiator.custom_username || initiator.username
+            const usernameMsg = initiator.nickname || initiator.username
 
             range
                 .text(`${usernameMsg} ${countNonAnsweredMsg}`, sendUserMessagesMiddleware(initiator))

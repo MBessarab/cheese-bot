@@ -1,6 +1,6 @@
 import {companionProfileMenu} from "../../menu/companion/companionListMenu/companionProfileMenu/index.mjs"
 import {setSessionAttribute} from "../../common/session/index.mjs"
-import {createRelation, findUserByCustomUsername} from "./persistence.mjs";
+import {createRelation, findUserByNickname} from "./persistence.mjs"
 
 export const start = async (ctx) => {
     const companionUsername = ctx.match
@@ -31,7 +31,7 @@ const companionNotFound = async (ctx) => {
 }
 
 const openCompanionProfile = async (ctx, companionUsername) => {
-    const companion = await findUserByCustomUsername(companionUsername)
+    const companion = await findUserByNickname(companionUsername)
     companion ? await openProfile(ctx, companion) : await companionNotFound(ctx)
 }
 

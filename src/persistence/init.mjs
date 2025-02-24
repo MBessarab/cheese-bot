@@ -9,7 +9,7 @@ async function users(){
                 chat_id BIGINT NOT NULL, 
                 first_name VARCHAR(256), 
                 username VARCHAR(256), 
-                custom_username VARCHAR(256), 
+                nickname VARCHAR(256), 
                 language_code VARCHAR(10), 
                 balance_stars BIGINT NOT NULL DEFAULT 0, 
                 greeting_message TEXT DEFAULT 'Привет, напиши мне что-нибудь :)', 

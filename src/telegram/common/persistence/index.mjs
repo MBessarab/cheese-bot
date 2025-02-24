@@ -1,4 +1,4 @@
-import {query} from "../../../persistence/index.mjs";
+import {query} from "../../../persistence/index.mjs"
 
 export async function getUserMessageTypes(user) {
     const result = await query(

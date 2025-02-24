@@ -9,7 +9,7 @@ import {messageTypesProfileMenu, messageTypesProfileMiddleware} from "./messageT
 
 export async function profileSubmenuMiddleware(ctx, next) {
     await ctx.editMessageText(
-        `Никнейм: <b>${ctx.user.custom_username || ctx.user.username}</b>\nБаланс: ${ctx.user.balance_stars} ⭐️\n`, {
+        `Никнейм: <b>${ctx.user.nickname || ctx.user.username}</b>\nБаланс: ${ctx.user.balance_stars} ⭐️\n`, {
             parse_mode: "HTML"
         }
     )

@@ -1,7 +1,7 @@
-import {query} from "../../../persistence/index.mjs";
+import {query} from "../../../persistence/index.mjs"
 
-export async function findUserByCustomUsername(customUsername) {
-    const result = await query(`SELECT * FROM users WHERE custom_username = $1`, [customUsername])
+export async function findUserByNickname(nickname) {
+    const result = await query(`SELECT * FROM users WHERE nickname = $1`, [nickname])
 
     return result.rows[0]
 }

@@ -1,7 +1,7 @@
-import {findInitiatorNonAnsweredMessage} from "../../../messages/persistence.mjs";
-import {setSessionAttribute} from "../../../common/session/index.mjs";
-import {forwardMessageToCompanion} from "../../../messages/forwardMessageToCompanion.mjs";
-import {findAllNonAnsweredMessage} from "../../../common/persistence/index.mjs";
+import {findInitiatorNonAnsweredMessage} from "../../../messages/persistence.mjs"
+import {setSessionAttribute} from "../../../common/session/index.mjs"
+import {forwardMessageToCompanion} from "../../../messages/forwardMessageToCompanion.mjs"
+import {findAllNonAnsweredMessage} from "../../../common/persistence/index.mjs"
 
 // Отправить первое сообщение, остальные обрабатывать в после реплая
 export const startSendMessage = async ({ companionCtx, initiator, }) => {

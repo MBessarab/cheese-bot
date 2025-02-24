@@ -1,4 +1,4 @@
-import {query} from "../../persistence/index.mjs";
+import {query} from "../../persistence/index.mjs"
 
 export async function createDefaultUserMessageTypes(user) {
     const now = new Date()

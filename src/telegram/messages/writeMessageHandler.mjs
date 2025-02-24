@@ -1,6 +1,6 @@
 import {getSessionAttribute} from "../common/session/index.mjs"
-import {findRelation} from "../common/persistence/index.mjs";
-import {findTypeMessageById, saveInitiatorMessage} from "./persistence.mjs";
+import {findRelation} from "../common/persistence/index.mjs"
+import {findTypeMessageById, saveInitiatorMessage} from "./persistence.mjs"
 
 export const writeMessageHandler = async (ctx) => {
     const companionCandidate = await getSessionAttribute(ctx, "companion_candidate")

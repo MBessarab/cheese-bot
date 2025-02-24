@@ -1,7 +1,7 @@
 import {Menu} from "@grammyjs/menu"
 import {backBtnMsg, chooseWriteMsg, helloMsg, nothingWriteMsg} from "../../../common/constants.mjs"
 import {companionProfileMenu, companionProfileSubmenuMiddleware} from "./companionProfileMenu/index.mjs"
-import {findRelationsFromUser, findUsersByIds} from "./persistence.mjs";
+import {findRelationsFromUser, findUsersByIds} from "./persistence.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
@@ -36,7 +36,7 @@ export const companionListMenu  = new Menu("companion_list_menu")
             companions.forEach((companion) => {
                 range
                     .submenu(
-                        `${companion.custom_username || companion.username}`,
+                        `${companion.nickname || companion.username}`,
                         "companion_profile_menu",
                         companionProfileSubmenuMiddleware(companion)
                     )

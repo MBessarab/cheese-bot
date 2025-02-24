@@ -1,4 +1,4 @@
-import {query} from "../../persistence/index.mjs";
+import {query} from "../../persistence/index.mjs"
 
 export async function findMessageById(message_id) {
     const result = await query(

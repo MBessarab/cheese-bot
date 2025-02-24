@@ -5,9 +5,9 @@ import {
     findMessageById,
     findTypeMessageByShort,
     saveCompanionMessage
-} from "./persistence.mjs";
-import {forwardMessageToInitiator} from "./forwardMessageToInitiator.mjs";
-import {forwardMessageToCompanion} from "./forwardMessageToCompanion.mjs";
+} from "./persistence.mjs"
+import {forwardMessageToInitiator} from "./forwardMessageToInitiator.mjs"
+import {forwardMessageToCompanion} from "./forwardMessageToCompanion.mjs"
 
 export async function replyMessageHandler(ctx){
     const currentReply = await getSessionAttribute(ctx, "current_reply")

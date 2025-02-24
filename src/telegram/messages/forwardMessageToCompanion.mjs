@@ -1,4 +1,4 @@
-import {findUsersById} from "./persistence.mjs";
+import {findUsersById} from "./persistence.mjs"
 
 // Отправить сообщение компаньону
 export async function forwardMessageToCompanion(ctx, message, messageType) {
@@ -26,7 +26,7 @@ async function sendVideoNoteToCompanion(ctx, message, messageType) {
 
 async function sendFromMessageToCompanion(ctx, message, messageType) {
     const initiator = await findUsersById(message.initiator_user_id)
-    const username = initiator.custom_username || initiator.username
+    const username = initiator.nickname || initiator.username
 
     await ctx.reply(
         `${messageType.price_stars} ⭐️ \n\nСообщение от <b>${username}</b> \n\nСпособ ответа - ${messageType.emoji} ${messageType.ru_title}`,

@@ -1,5 +1,5 @@
-import {Menu} from "@grammyjs/menu";
-import {backBtnMsg} from "../../../../../common/constants.mjs";
+import {Menu} from "@grammyjs/menu"
+import {backBtnMsg} from "../../../../../common/constants.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 

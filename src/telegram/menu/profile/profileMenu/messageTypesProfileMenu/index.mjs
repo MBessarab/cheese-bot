@@ -1,7 +1,7 @@
 import {Menu} from "@grammyjs/menu"
 import {backBtnMsg} from "../../../../common/constants.mjs"
-import {messageTypeProfileMenu, messageTypeProfileMiddleware} from "./messageTypeProfileMenu/index.mjs";
-import {getAllMessageTypes} from "./persistence.mjs";
+import {messageTypeProfileMenu, messageTypeProfileMiddleware} from "./messageTypeProfileMenu/index.mjs"
+import {getAllMessageTypes} from "./persistence.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 

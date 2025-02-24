@@ -12,7 +12,7 @@ export async function companionChatSubmenuMiddleware(ctx, next) {
     await ctx.pinChatMessage(ctx.msgId)
 
     await ctx.editMessageText(
-        `Теперь напишите что-нибудь <b>${companionCandidate.custom_username}</b> ✍`,
+        `Теперь напишите что-нибудь <b>${companionCandidate.nickname}</b> ✍`,
         { parse_mode: "HTML" }
     )
 

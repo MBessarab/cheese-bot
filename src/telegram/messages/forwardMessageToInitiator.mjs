@@ -23,6 +23,6 @@ async function forwardVideoNoteToInitiator(ctx, chatId, videoNodeFileId) {
 }
 
 async function sendFromMessageToInitiator(ctx, chatId) {
-    const username = ctx.user.custom_username || ctx.user.username
+    const username = ctx.user.nickname || ctx.user.username
     await ctx.api.sendMessage(chatId, `Сообщение от ${username} :`)
 }
