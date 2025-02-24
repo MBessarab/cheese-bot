@@ -5,14 +5,14 @@ import {
     generateBeforeMiddleware, generateUpdateMiddleware,
 } from "telegraf-middleware-console-time"
 
-import {sessionMiddleware} from "./session/index.mjs"
+import {sessionMiddleware} from "./common/session/index.mjs"
 import { hydrateContext } from "@grammyjs/hydrate"
-import {mainMenu} from "./menu/mainMenu.mjs"
+import {mainMenu} from "./menu/mainMenu/index.mjs"
 import {deletePinMessageAlert, filterBotsMiddleware} from "./middleware/filter.mjs"
 import {middleware} from "./middleware/enrichment.mjs"
 import {logActions} from "./middleware/log.mjs"
 import {botCommandsGroup} from "./commands/index.js"
-import {messageHandler} from "./messages/messageHandler.mjs"
+import {messageHandler} from "./messages/index.mjs"
 
 const token = process.env.BOT_TOKEN
 

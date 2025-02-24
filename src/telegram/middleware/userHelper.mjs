@@ -1,4 +1,3 @@
-
 export const isUser = (ctx) => !ctx.from.is_bot
 
 export const isOtherBot = (ctx) => !isUser && (ctx.from.id !== ctx.me.id)

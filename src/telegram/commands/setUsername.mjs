@@ -1,4 +1,4 @@
-import {helloMsg} from "../constants.mjs"
+import {helloMsg} from "../common/constants.mjs"
 
 export const setUsername = async (ctx) => {
     // const companionUsername = ctx.match

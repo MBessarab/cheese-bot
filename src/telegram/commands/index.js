@@ -1,5 +1,5 @@
 import {CommandGroup} from "@grammyjs/commands"
-import {start} from "./start.mjs"
+import {start} from "./start/index.mjs"
 import {profile} from "./profile.mjs"
 import {setUsername} from "./setUsername.mjs"
 import {help} from "./help.mjs"
