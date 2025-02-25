@@ -20,7 +20,7 @@ const openProfile = async (ctx, companion) => {
     // Убрать закреп предыдущего компаньона
     await ctx.unpinAllChatMessages()
 
-    await ctx.reply(companion.greeting_message, {
+    await ctx.reply(companion.description || 'Описание отсутствует', {
         reply_markup: companionProfileMenu
     })
 }

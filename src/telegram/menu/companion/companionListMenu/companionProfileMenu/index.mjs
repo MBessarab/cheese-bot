@@ -14,7 +14,16 @@ export function companionProfileSubmenuMiddleware(companion) {
 
         await setSessionAttribute(ctx, {companion_candidate: companion})
 
-        await ctx.editMessageText(companion.greeting_message)
+        if(companion.photo) {
+            await ctx.editMessageMedia({
+                type: "photo",
+                caption: companion.description || 'Описание отсутствует',
+                media: companion.photo
+            })
+        } else {
+            await ctx.editMessageText(companion.description || 'Описание отсутствует')
+        }
+
         return await next()
     }
 }
@@ -55,9 +64,8 @@ export const companionProfileMenu = new Menu('companion_profile_menu')
         if(relationTypeMessageId) {
             range
                 .row()
-                .submenu(
+                .text(
                     "Начать диалог",
-                    "companion_chat_menu",
                     companionChatSubmenuMiddleware
                 )
         }

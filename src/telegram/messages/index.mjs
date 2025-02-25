@@ -4,6 +4,7 @@ import {replyMessageHandler} from "./replyMessageHandler.mjs"
 import {mainMenu} from "../menu/mainMenu/index.mjs"
 import {changePriceMessageTypeHandler} from "./changeCostMessageType.mjs"
 import {changeNickname} from "./changeNickname.mjs"
+import {changeProfileDescription} from "./changeProfileDescription.mjs";
 
 export const messageHandler = async (ctx) => {
     const chatMode = await getSessionAttribute(ctx, "chat_mode")
@@ -18,8 +19,7 @@ export const messageHandler = async (ctx) => {
                 await replyErrorMessage(ctx)
             break
         case "change_profile_description":
-            await ctx.reply("Изменение профиля пока недодступно")
-
+            await changeProfileDescription(ctx)
             await setSessionAttribute(ctx, { chat_mode: null })
             break
         case "change_price_message_type":

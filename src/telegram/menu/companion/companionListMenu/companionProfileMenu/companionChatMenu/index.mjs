@@ -5,18 +5,19 @@ import {companionListSubmenuMiddleware} from "../../index.mjs"
 
 ///////////////////////////// Middleware /////////////////////////////
 
-export async function companionChatSubmenuMiddleware(ctx, next) {
+export async function companionChatSubmenuMiddleware(ctx) {
     await setSessionAttribute(ctx, {chat_mode: "write"})
+
+    await ctx.deleteMessage()
+
     const companionCandidate = await getSessionAttribute(ctx, "companion_candidate")
 
-    await ctx.pinChatMessage(ctx.msgId)
+    const newMsg = await ctx.api.sendMessage(ctx.user.chat_id, `Теперь напишите что-нибудь <b>${companionCandidate.nickname}</b> ✍`, {
+        parse_mode: "HTML",
+        reply_markup: companionChatMenu
+    })
 
-    await ctx.editMessageText(
-        `Теперь напишите что-нибудь <b>${companionCandidate.nickname}</b> ✍`,
-        { parse_mode: "HTML" }
-    )
-
-    return await next()
+    await ctx.pinChatMessage(newMsg.message_id)
 }
 
 const backMiddleware = async (ctx, next) => {

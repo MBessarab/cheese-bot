@@ -16,7 +16,7 @@ import {messageHandler} from "./messages/index.mjs"
 
 const token = process.env.BOT_TOKEN
 
-export const bot = new Bot(token)
+const bot = new Bot(token)
 
 bot
     // логировать все входящие события

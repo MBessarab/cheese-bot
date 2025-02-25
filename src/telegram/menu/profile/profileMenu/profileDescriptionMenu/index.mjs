@@ -1,17 +1,34 @@
 import {Menu} from "@grammyjs/menu"
 import {backBtnMsg} from "../../../../common/constants.mjs"
 import {changeProfileDescriptionMenu, changeProfileDescriptionMiddleware} from "./changeProfileDescriptionMenu/index.mjs"
+import {profileMenu} from "../index.mjs";
 
 ///////////////////////////// Middleware /////////////////////////////
 
 export async function showDescriptionProfileMiddleware(ctx, next) {
+    if(ctx.user.photo) {
+        await ctx.editMessageMedia({
+            type: "photo",
+            caption: ctx.user.description || 'Описание отсутствует',
+            media: ctx.user.photo
+        })
+    } else {
+        await ctx.editMessageText(ctx.user.description || 'Описание отсутствует')
+    }
 
     return await next()
 }
 
-async function backMiddleware(ctx, next) {
+async function backMiddleware(ctx) {
+    await ctx.deleteMessage()
 
-    return await next()
+    await ctx.api.sendMessage(
+        ctx.user.chat_id,
+        `Никнейм: <b>${ctx.user.nickname || ctx.user.username}</b>\nБаланс: ${ctx.user.balance_stars} ⭐️\n`, {
+            parse_mode: "HTML",
+            reply_markup: profileMenu
+        }
+    )
 }
 
 //////////////////////////////// Menu ///////////////////////////////
@@ -19,14 +36,13 @@ async function backMiddleware(ctx, next) {
 export const profileDescriptionMenu = new Menu("show_profile_description_menu")
     .dynamic((ctx, range) => {
         return range
-            .submenu(
-                'Изменить описание профиля',
-                'change_profile_description_menu',
+            .text(
+                'Изменить',
                 changeProfileDescriptionMiddleware
             )
             .row()
     })
-    .back(backBtnMsg, backMiddleware)
+    .text(backBtnMsg, backMiddleware)
 
 
 profileDescriptionMenu.register([changeProfileDescriptionMenu])
