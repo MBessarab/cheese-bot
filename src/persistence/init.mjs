@@ -14,6 +14,7 @@ async function users(){
                 balance_stars BIGINT NOT NULL DEFAULT 0, 
                 photo TEXT, 
                 description TEXT, 
+                blocked BOOLEAN DEFAULT FALSE,
                 last_active_time TIMESTAMPTZ NOT NULL, 
                 create_time TIMESTAMPTZ NOT NULL, 
                 last_update_time TIMESTAMPTZ NOT NULL, 
@@ -84,6 +85,7 @@ async function userTypeMessages(){
             `CREATE TABLE IF NOT EXISTS user_message_type(
                 user_id BIGINT, 
                 message_type_id INTEGER NOT NULL, 
+                active BOOLEAN DEFAULT false,
                 price_stars INTEGER DEFAULT 0, 
                 last_update_time TIMESTAMPTZ NOT NULL, 
                 PRIMARY KEY(user_id, message_type_id) 

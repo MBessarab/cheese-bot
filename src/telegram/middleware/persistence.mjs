@@ -1,14 +1,16 @@
 import {query} from "../../persistence/index.mjs"
 
 export async function createDefaultUserMessageTypes(user) {
-    const now = new Date()
-    const defaultTypeId = 1
-
     return await query(
-        `INSERT INTO user_message_type(user_id, message_type_id, last_update_time) 
-        VALUES ($1, $2, $3)
+        `INSERT INTO user_message_type(user_id, message_type_id, last_update_time)
+            SELECT 
+                $1 as user_id, 
+                mt.id, 
+                $2 as last_update_time 
+            FROM 
+                message_type as mt
         ON CONFLICT(user_id, message_type_id) DO NOTHING`,
-        [user.id, defaultTypeId, now]
+        [user.id, new Date()]
     )
 }
 
@@ -44,4 +46,18 @@ export async function getOrCreateUser(user, chatId) {
     )
 
     return result.rows[0]
+}
+
+export async function getUserMessageTypes(user) {
+    const result = await query(
+        `SELECT tm.*, utm.price_stars, utm.active
+        FROM 
+            user_message_type utm INNER JOIN message_type tm 
+                ON utm.message_type_id = tm.id 
+        WHERE 
+            utm.user_id = $1`,
+        [user.id]
+    )
+
+    return result.rows
 }

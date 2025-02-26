@@ -1,4 +1,4 @@
-import {companionProfileMenu} from "../../menu/companion/companionListMenu/companionProfileMenu/index.mjs"
+import {companionProfileMenu} from "../../menu/main_menu/companion/companion_list_menu/companion_profile_menu/index.mjs"
 import {setSessionAttribute} from "../../common/session/index.mjs"
 import {createRelation, findUserByNickname} from "./persistence.mjs"
 
@@ -40,6 +40,6 @@ const openCommonState = async (ctx) => {
     await openCompanionProfile(ctx, "maks_1")
 
     // await ctx.reply(helloMsg, {
-    //     reply_markup: mainMenu
+    //     reply_markup: main_menu
     // })
 }

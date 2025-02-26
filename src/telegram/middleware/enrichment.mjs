@@ -1,6 +1,5 @@
 import {Composer} from "grammy"
-import {getUserMessageTypes} from "../common/persistence/index.mjs"
-import {createDefaultUserMessageTypes, getOrCreateUser} from "./persistence.mjs"
+import {createDefaultUserMessageTypes, getOrCreateUser, getUserMessageTypes} from "./persistence.mjs"
 
 export async function userMiddleware(ctx, next) {
     ctx.user = await getOrCreateUser(ctx.from, ctx.chatId)
@@ -15,9 +14,13 @@ export async function userMessageTypesMiddleware(ctx, next) {
     return await next()
 }
 
+//Фильтр заблокированных пользователей
+export const filterBlockedUsers =  async (ctx) => !ctx.user.blocked
+
 // middleware для обогащения контекста
 export const middleware = new Composer()
 
 middleware
     .use(userMiddleware)
+    .filter(filterBlockedUsers)
     .use(userMessageTypesMiddleware)

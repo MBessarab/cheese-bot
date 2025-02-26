@@ -1,19 +1,5 @@
 import {query} from "../../../persistence/index.mjs"
 
-export async function getUserMessageTypes(user) {
-    const result = await query(
-        `SELECT tm.*, utm.price_stars
-        FROM 
-            user_message_type utm INNER JOIN message_type tm 
-                ON utm.message_type_id = tm.id 
-        WHERE 
-            utm.user_id = $1`,
-        [user.id]
-    )
-
-    return result.rows
-}
-
 export async function findRelation(initiator, companion) {
     const result = await query(
         `SELECT * 
@@ -50,15 +36,44 @@ export async function findAllNonAnsweredMessages(companion) {
 
 export async function findAllNonAnsweredMessage(companion) {
     const result = await query(
-        "SELECT * " +
-        "FROM messages " +
-        "WHERE " +
-        "companion_user_id = $1 " +
-        "AND message_id NOT IN (SELECT reply_message_id FROM messages WHERE reply_message_id IS NOT NULL) " +
-        "AND reply_message_id IS NULL " +
-        "ORDER BY create_time ASC LIMIT 1",
+        `SELECT * 
+        FROM messages 
+        WHERE 
+            companion_user_id = $1 
+            AND message_id NOT IN (
+                SELECT reply_message_id 
+                FROM messages 
+                WHERE reply_message_id IS NOT NULL
+            ) 
+            AND reply_message_id IS NULL 
+        ORDER BY create_time ASC LIMIT 1`,
         [companion.id]
     )
 
     return result.rows[0]
+}
+
+export async function findUserMessageTypes(userId) {
+    const result = await query(
+        `SELECT * 
+            FROM user_message_type 
+            WHERE user_id = $1`,
+        [userId]
+    )
+
+    return result.rows
+}
+
+export async function getUserMessageTypes(userId) {
+    const result = await query(
+        `SELECT tm.*, utm.price_stars, utm.active
+        FROM 
+            user_message_type utm INNER JOIN message_type tm 
+                ON utm.message_type_id = tm.id 
+        WHERE 
+            utm.user_id = $1`,
+        [userId]
+    )
+
+    return result.rows
 }

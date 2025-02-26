@@ -5,7 +5,7 @@ import {tgSessionClient} from "../../../persistence/index.mjs"
 const initializeSession = () => ({
     companion_candidate: {},    // user object
     chat_mode: null,    // "reply" | "write" | "change_price_message_type" | change_profile_nickname
-    profile_message_type: null,    // Настройка типа сообщения в профиле
+    profile_message_type_id: null,    // Настройка типа сообщения в профиле
     current_reply: {
         message_id: null, // последнее сообщение
         bot_message_id: null, // id пересланного сообщения для реплая компаньоном
@@ -24,7 +24,7 @@ export const setSessionAttribute = async (ctx, attrs) => {
 
     'chat_mode' in attrs && (session.chat_mode = attrs.chat_mode)
     'companion_candidate' in attrs && (session.companion_candidate = attrs.companion_candidate)
-    'profile_message_type' in attrs && (session.profile_message_type = attrs.profile_message_type)
+    'profile_message_type_id' in attrs && (session.profile_message_type_id = attrs.profile_message_type_id)
     'current_reply' in attrs && (session.current_reply = attrs.current_reply)
 }
 

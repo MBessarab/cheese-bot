@@ -7,12 +7,13 @@ import {
 
 import {sessionMiddleware} from "./common/session/index.mjs"
 import { hydrateContext } from "@grammyjs/hydrate"
-import {mainMenu} from "./menu/mainMenu/index.mjs"
-import {deletePinMessageAlert, filterBotsMiddleware} from "./middleware/filter.mjs"
+import {mainMenu} from "./menu/main_menu/index.mjs"
+import {filterBotsMiddleware} from "./middleware/filter.mjs"
 import {middleware} from "./middleware/enrichment.mjs"
 import {logActions} from "./middleware/log.mjs"
 import {botCommandsGroup} from "./commands/index.js"
 import {messageHandler} from "./messages/index.mjs"
+import {deletePinMessageAlert} from "./middleware/deletePinMessageAlert.mjs";
 
 const token = process.env.BOT_TOKEN
 

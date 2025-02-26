@@ -1,10 +1,10 @@
 import {getSessionAttribute, setSessionAttribute} from "../common/session/index.mjs"
-import {writeMessageHandler} from "./writeMessageHandler.mjs"
-import {replyMessageHandler} from "./replyMessageHandler.mjs"
-import {mainMenu} from "../menu/mainMenu/index.mjs"
-import {changePriceMessageTypeHandler} from "./changeCostMessageType.mjs"
-import {changeNickname} from "./changeNickname.mjs"
-import {changeProfileDescription} from "./changeProfileDescription.mjs";
+import {writeMessageHandler} from "./write/index.mjs"
+import {replyMessageHandler} from "./reply/index.mjs"
+import {mainMenu} from "../menu/main_menu/index.mjs"
+import {changePriceMessageTypeHandler} from "./change_price_message_type/index.mjs"
+import {changeNickname} from "./change_profile_nickname/index.mjs"
+import {changeProfileDescription} from "./change_profile_description/index.mjs";
 
 export const messageHandler = async (ctx) => {
     const chatMode = await getSessionAttribute(ctx, "chat_mode")
@@ -20,6 +20,7 @@ export const messageHandler = async (ctx) => {
             break
         case "change_profile_description":
             await changeProfileDescription(ctx)
+
             await setSessionAttribute(ctx, { chat_mode: null })
             break
         case "change_price_message_type":

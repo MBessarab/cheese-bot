@@ -15,7 +15,8 @@ export const query = async (str, params) => {
     const client = await pool.connect()
 
     return client.query(str, params)
-        .catch(err => console.error(`DATABASE ERROR: ${err}`))
+        // TODO возвращать ошибку на ui
+        // .catch(err => console.error(`DATABASE ERROR: ${err} \n ${err.stack}`))
         .finally(() => client.release())
 }
 
