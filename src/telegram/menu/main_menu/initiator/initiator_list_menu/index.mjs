@@ -1,8 +1,9 @@
 import {Menu} from "@grammyjs/menu"
 import {backBtnMsg, helloMsg} from "../../../../common/constants.mjs"
 import {setSessionAttribute} from "../../../../common/session/index.mjs"
-import {countNonAnsweredMessages, findUsersByIds} from "./persistence.mjs"
 import {startSendMessage} from "./startSendMessage.mjs"
+import {countNonAnsweredMessages} from "../../../../persistence/messages.mjs";
+import {findUsersByIds} from "../../../../persistence/users.mjs";
 
 ///////////////////////////// Middleware /////////////////////////////
 

@@ -3,8 +3,8 @@ import {backBtnMsg} from "../../../../../common/constants.mjs"
 import {companionChatMenu, companionChatSubmenuMiddleware} from "./companion_chat_menu/index.mjs"
 import {getSessionAttribute, setSessionAttribute} from "../../../../../common/session/index.mjs"
 import {companionListSubmenuMiddleware} from "../index.mjs"
-import {findUserMessageTypesPrice, updateRelationTypeMessages} from "./persistence.mjs"
-import {findRelation} from "../../../../../common/persistence/index.mjs"
+import {findRelation, updateRelationTypeMessages} from "../../../../../persistence/relation.mjs";
+import {findActiveUserMessageTypesPrice} from "../../../../../persistence/user_message_type.mjs";
 
 ///////////////////////////// Middleware /////////////////////////////
 
@@ -44,7 +44,7 @@ const backMiddleware = async (ctx, next) => await next()
 export const companionProfileMenu = new Menu('companion_profile_menu')
     .dynamic(async (ctx, range) => {
         const companionCandidate = await getSessionAttribute(ctx, "companion_candidate")
-        const messageTypesCompanion = await findUserMessageTypesPrice(companionCandidate)
+        const messageTypesCompanion = await findActiveUserMessageTypesPrice(companionCandidate)
 
         const relation = await findRelation(ctx.user, companionCandidate)
         const relationTypeMessageId = relation.reply_message_type_id

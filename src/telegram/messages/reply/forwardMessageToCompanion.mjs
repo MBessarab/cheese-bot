@@ -1,6 +1,6 @@
-import {findUsersById} from "./persistence.mjs"
-
 // Отправить сообщение компаньону
+import {findUsersById} from "../../persistence/users.mjs";
+
 export async function forwardMessageToCompanion(ctx, message, messageType) {
     return message && (
         (message.text && await sendTextToCompanion(ctx, message, messageType)) ||

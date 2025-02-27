@@ -1,6 +1,7 @@
 import {companionProfileMenu} from "../../menu/main_menu/companion/companion_list_menu/companion_profile_menu/index.mjs"
 import {setSessionAttribute} from "../../common/session/index.mjs"
-import {createRelation, findUserByNickname} from "./persistence.mjs"
+import {createRelation} from "../../persistence/relation.mjs";
+import {findUserByNickname} from "../../persistence/users.mjs";
 
 export const start = async (ctx) => {
     const companionUsername = ctx.match

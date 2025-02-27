@@ -1,7 +1,8 @@
 import {Menu} from "@grammyjs/menu"
 import {backBtnMsg, chooseWriteMsg, helloMsg, nothingWriteMsg} from "../../../../common/constants.mjs"
 import {companionProfileMenu, companionProfileSubmenuMiddleware} from "./companion_profile_menu/index.mjs"
-import {findRelationsFromUser, findUsersByIds} from "./persistence.mjs"
+import {findUsersByIds} from "../../../../persistence/users.mjs";
+import {findRelationsFromUser} from "../../../../persistence/relation.mjs";
 
 ///////////////////////////// Middleware /////////////////////////////
 

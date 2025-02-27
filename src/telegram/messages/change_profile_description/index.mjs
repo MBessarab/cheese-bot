@@ -1,5 +1,5 @@
-import {updateUserWithProfile} from "./persistence.mjs";
-import {profileMenu} from "../../menu/main_menu/profile/profile_menu/index.mjs";
+import {profileMenu} from "../../menu/main_menu/profile/profile_menu/index.mjs"
+import {updateUserWithProfile} from "../../persistence/users.mjs";
 
 export async function changeProfileDescription(ctx){
     if(ctx.message.photo) {

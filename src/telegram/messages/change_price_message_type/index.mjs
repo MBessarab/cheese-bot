@@ -1,14 +1,13 @@
 import {getSessionAttribute, setSessionAttribute} from "../../common/session/index.mjs"
-import {updateUserMessageTypeWithPriceStars} from "./persistence.mjs";
 import {messageTypesProfileMenu} from "../../menu/main_menu/profile/profile_menu/message_types_profile_menu/index.mjs";
-import {getUserMessageTypes} from "../../common/persistence/index.mjs";
+import {getUserMessageTypes, updateUserMessageTypeWithPriceStars} from "../../persistence/user_message_type.mjs";
 
 export const changePriceMessageTypeHandler = async (ctx) => {
     const messageTypeId = await getSessionAttribute(ctx, "profile_message_type_id")
 
     await updateUserMessageTypeWithPriceStars(ctx.user.id, ctx.msg.text, messageTypeId)
 
-    const allMessageTypes = await getUserMessageTypes(ctx.user.id)
+    const allMessageTypes = await getUserMessageTypes(ctx.user)
 
     const messageTypesText = allMessageTypes.map(messageType => {
         const enabledMessageType = messageType.active ? `Вкл.` : `Выкл`

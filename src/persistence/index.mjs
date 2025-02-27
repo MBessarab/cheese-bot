@@ -28,6 +28,7 @@ export const tgSessionClient = new pg.Client({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_TG_BOT_DATABASE
 })
+
 try {
     await tgSessionClient.connect()
 } catch (e) {

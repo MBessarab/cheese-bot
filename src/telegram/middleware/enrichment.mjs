@@ -1,5 +1,6 @@
 import {Composer} from "grammy"
-import {createDefaultUserMessageTypes, getOrCreateUser, getUserMessageTypes} from "./persistence.mjs"
+import {getOrCreateUser} from "../persistence/users.mjs";
+import {createDefaultUserMessageTypes, getUserMessageTypes} from "../persistence/user_message_type.mjs";
 
 export async function userMiddleware(ctx, next) {
     ctx.user = await getOrCreateUser(ctx.from, ctx.chatId)

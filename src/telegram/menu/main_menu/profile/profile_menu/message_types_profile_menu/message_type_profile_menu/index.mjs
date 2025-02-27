@@ -1,10 +1,13 @@
 import {Menu} from "@grammyjs/menu"
 import {backBtnMsg} from "../../../../../../common/constants.mjs"
-import {changeActiveUserMessageType, getMessageTypeById} from "./persistence.mjs"
 import {getSessionAttribute, setSessionAttribute} from "../../../../../../common/session/index.mjs"
 import {changePriceMessageTypeMenu, changePriceMessageTypeMiddleware} from "./change_price_message_type_menu/index.mjs"
 import {messageTypesProfileMenu} from "../index.mjs"
-import {findUserMessageTypes} from "../../../../../../common/persistence/index.mjs";
+import {
+    changeActiveUserMessageType,
+    findUserMessageTypes,
+    getMessageTypeById
+} from "../../../../../../persistence/user_message_type.mjs";
 
 ///////////////////////////// Middleware /////////////////////////////
 

@@ -1,14 +1,14 @@
 import {getSessionAttribute, setSessionAttribute} from "../../common/session/index.mjs"
 import {initiatorListMenu} from "../../menu/main_menu/initiator/initiator_list_menu/index.mjs"
-import {
-    findInitiatorNonAnsweredMessage,
-    findMessageById,
-    findTypeMessageByShort,
-    saveCompanionMessage
-} from "./persistence.mjs"
 import {forwardMessageToInitiator} from "./forwardMessageToInitiator.mjs"
 import {forwardMessageToCompanion} from "./forwardMessageToCompanion.mjs"
-import {findAllNonAnsweredMessage, findAllNonAnsweredMessages} from "../../common/persistence/index.mjs";
+import {
+    findAllNonAnsweredMessage, findAllNonAnsweredMessages,
+    findInitiatorNonAnsweredMessage,
+    findMessageById,
+    saveCompanionMessage
+} from "../../persistence/messages.mjs";
+import {findTypeMessageByShort} from "../../persistence/user_message_type.mjs";
 
 export async function replyMessageHandler(ctx){
     const currentReply = await getSessionAttribute(ctx, "current_reply")
