@@ -12,11 +12,10 @@ const chooseWriteMsgHandler = async (ctx, relations) => {
         await ctx.editMessageText(nothingWriteMsg)
 }
 
-export async function companionListSubmenuMiddleware(ctx, next) {
+export async function companionListSubmenuMiddleware(ctx) {
     const relations = await findRelationsFromUser(ctx.user)
     ctx.relations = relations
     await chooseWriteMsgHandler(ctx, relations)
-    return await next()
 }
 
 const backMiddleware = async (ctx) => {

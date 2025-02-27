@@ -9,7 +9,7 @@ import {findActiveUserMessageTypesPrice} from "../../../../../persistence/user_m
 ///////////////////////////// Middleware /////////////////////////////
 
 export function companionProfileSubmenuMiddleware(companion) {
-    return async (ctx, next) => {
+    return async (ctx) => {
         await ctx.unpinAllChatMessages()
 
         await setSessionAttribute(ctx, {companion_candidate: companion})
@@ -23,21 +23,20 @@ export function companionProfileSubmenuMiddleware(companion) {
         } else {
             await ctx.editMessageText(companion.description || 'Описание отсутствует')
         }
-
-        return await next()
     }
 }
 
 function saveTypeMessageReply(companionCandidate, messageType, checked) {
-    return async (ctx, next) => {
+    return async (ctx) => {
         await updateRelationTypeMessages(ctx.user, companionCandidate, messageType, !checked)
 
         await ctx.menu.update()
-        await next()
     }
 }
 
-const backMiddleware = async (ctx, next) => await next()
+const backMiddleware = async (ctx) => {
+
+}
 
 //////////////////////////////// Menu ///////////////////////////////
 

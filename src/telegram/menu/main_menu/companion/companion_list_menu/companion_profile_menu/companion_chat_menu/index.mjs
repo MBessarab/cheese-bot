@@ -20,12 +20,10 @@ export async function companionChatSubmenuMiddleware(ctx) {
     await ctx.pinChatMessage(newMsg.message_id)
 }
 
-const backMiddleware = async (ctx, next) => {
+const backMiddleware = async (ctx) => {
     await setSessionAttribute(ctx, {chat_mode: null})
     await ctx.unpinAllChatMessages()
     await ctx.menu.nav('companion_list_menu')
-
-    return await next()
 }
 
 //////////////////////////////// Menu ///////////////////////////////

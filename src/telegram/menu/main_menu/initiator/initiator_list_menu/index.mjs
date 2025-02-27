@@ -7,7 +7,7 @@ import {findUsersByIds} from "../../../../persistence/users.mjs";
 
 ///////////////////////////// Middleware /////////////////////////////
 
-export async function initiatorListSubmenuMiddleware(ctx, next) {
+export async function initiatorListSubmenuMiddleware(ctx) {
     // проверить, есть ли новые сообщения
     const countMessages = await countNonAnsweredMessages(ctx.user)
     ctx.countMessages = countMessages
@@ -15,24 +15,20 @@ export async function initiatorListSubmenuMiddleware(ctx, next) {
     const text = countMessages.length ? 'У вас есть новые сообщения 🙋🏻‍♂️' : 'У вас нет новых сообщений'
 
     await ctx.editMessageText(text)
-
-    return await next()
 }
 
 const sendUserMessagesMiddleware = (initiator) => {
-    return async (ctx, next) => {
+    return async (ctx) => {
         await setSessionAttribute(ctx, { chat_mode: "reply" })
 
         await startSendMessage({ companionCtx: ctx, initiator })
-        return await next()
     }
 }
 
-const sendAllMessagesMiddleware = async (ctx, next) => {
+const sendAllMessagesMiddleware = async (ctx) => {
     await setSessionAttribute(ctx, { chat_mode: "reply" })
 
     await startSendMessage({ companionCtx: ctx, /*replyMode: "all"*/ })
-    return await next()
 }
 
 const backMiddleware = async (ctx) => {
