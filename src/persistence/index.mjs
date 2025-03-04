@@ -16,7 +16,7 @@ export const query = async (str, params) => {
 
     return client.query(str, params)
         // TODO возвращать ошибку на ui
-        // .catch(err => console.error(`DATABASE ERROR: ${err} \n ${err.stack}`))
+        .catch(err => console.error(`DATABASE ERROR: ${err} \n ${err.stack}`))
         .finally(() => client.release())
 }
 

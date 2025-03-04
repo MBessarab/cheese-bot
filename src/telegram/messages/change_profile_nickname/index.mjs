@@ -1,5 +1,5 @@
 import {profileMenu} from "../../menu/main_menu/profile/profile_menu/index.mjs"
-import {setNickname} from "../../persistence/users.mjs";
+import {setNickname} from "../../persistence/users.mjs"
 
 export const changeNickname = async (ctx) => {
     await setNickname(ctx.user.id, ctx.msg.text)

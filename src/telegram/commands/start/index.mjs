@@ -39,8 +39,4 @@ const openCompanionProfile = async (ctx, companionUsername) => {
 const openCommonState = async (ctx) => {
     // Для тестов ?start=maks_1
     await openCompanionProfile(ctx, "maks_1")
-
-    // await ctx.reply(helloMsg, {
-    //     reply_markup: main_menu
-    // })
 }
